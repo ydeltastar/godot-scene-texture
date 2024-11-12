@@ -1,0 +1,6 @@
+[gd_resource type="World3D" load_steps=2 format=3 uid="uid://bra76mpxojd28"]
+
+[ext_resource type="Environment" uid="uid://c6fbe60ut1q1k" path="res://addons/scene_texture/scene_render_environment.tres" id="1_00gcn"]
+
+[resource]
+environment = ExtResource("1_00gcn")

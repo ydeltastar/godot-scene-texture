@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://diylmcnhom0ps"]
+
+[ext_resource type="ArrayMesh" path="res://demo/assets/meshes/kenny_nature-kit_Mesh bed_floor.res" id="1_ycmii"]
+
+[node name="Bed" type="Node3D"]
+
+[node name="KennyNature-kitMeshBedFloor" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_ycmii")

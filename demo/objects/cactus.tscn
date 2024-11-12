@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cww1kxyxn8y60"]
+
+[ext_resource type="ArrayMesh" path="res://demo/assets/meshes/kenny_nature-kit_Mesh cactus_short.res" id="1_jf082"]
+
+[node name="Cactus" type="Node3D"]
+
+[node name="KennyNature-kitMeshCactusShort" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_jf082")

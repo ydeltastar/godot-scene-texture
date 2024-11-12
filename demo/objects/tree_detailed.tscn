@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpqfy5ce80nnq"]
+
+[ext_resource type="ArrayMesh" uid="uid://cbs1cxf7xbgq7" path="res://demo/assets/meshes/kenny_nature-kit_Mesh tree_detailed.res" id="1_hvbke"]
+
+[node name="TreeDetailed" type="Node3D"]
+
+[node name="KennyNature-kitMeshTreeDetailed" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_hvbke")

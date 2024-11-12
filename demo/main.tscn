@@ -1,0 +1,186 @@
+[gd_scene load_steps=16 format=3 uid="uid://dbqiqfqf3pytg"]
+
+[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
+[ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
+[ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
+[ext_resource type="PackedScene" uid="uid://c16hp5nqp1ii" path="res://demo/objects/tree_fall.tscn" id="3_ppkn1"]
+[ext_resource type="PackedScene" uid="uid://bpqfy5ce80nnq" path="res://demo/objects/tree_detailed.tscn" id="4_shoq3"]
+[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://addons/scene_texture/scene_render_world3d.tres" id="5_p0g4b"]
+[ext_resource type="PackedScene" uid="uid://cww1kxyxn8y60" path="res://demo/objects/cactus.tscn" id="8_nj1ew"]
+[ext_resource type="PackedScene" uid="uid://diylmcnhom0ps" path="res://demo/objects/bed.tscn" id="9_2rkun"]
+
+[sub_resource type="Texture2D" id="Texture2D_nfuoc"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("1_otq1i")
+world_3d = ExtResource("5_p0g4b")
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.28
+camera_position = Vector3(0, 0.72, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="Texture2D" id="Texture2D_nap66"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("3_ppkn1")
+world_3d = ExtResource("5_p0g4b")
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0.546288, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.28
+camera_position = Vector3(0, 0.72, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="Texture2D" id="Texture2D_0431j"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("4_shoq3")
+world_3d = ExtResource("5_p0g4b")
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.425
+camera_position = Vector3(0, 0.79, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="Texture2D" id="Texture2D_2ecfp"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("8_nj1ew")
+world_3d = ExtResource("5_p0g4b")
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 1.27
+camera_position = Vector3(0, 0.31, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="Texture2D" id="Texture2D_fqi1k"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("9_2rkun")
+world_3d = ExtResource("5_p0g4b")
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 1.245
+camera_position = Vector3(0.05, -0.01, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_abv04"]
+albedo_color = Color(0.66612, 0.717192, 0.708549, 1)
+
+[node name="Main" type="Node3D" node_paths=PackedStringArray("scene_pivot")]
+script = ExtResource("1_j883o")
+scene_pivot = NodePath("ScenePivot")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
+shadow_blur = 0.0
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 29.3
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 276.0
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Button" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Tree"
+icon = SubResource("Texture2D_nfuoc")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button2" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Tree Fall"
+icon = SubResource("Texture2D_nap66")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button3" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Tree Detailed"
+icon = SubResource("Texture2D_0431j")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button4" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Cactus"
+icon = SubResource("Texture2D_2ecfp")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button5" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Bed"
+icon = SubResource("Texture2D_fqi1k")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="ScenePivot" type="Node3D" parent="."]
+
+[node name="Tree1" parent="ScenePivot" instance=ExtResource("1_otq1i")]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="ScenePivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0466338, 0)
+size = Vector3(1, 0.0932676, 1)
+material = SubResource("StandardMaterial3D_abv04")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.744338, -0.21629, 0.631807, 0, 0.946097, 0.323883, -0.667803, -0.241078, 0.704216, 1.15128, 1.22734, 1.54946)

@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://csnmxg8mhnoji"]
+
+[resource]
+resource_name = "leafsGreen"
+albedo_color = Color(0.43763, 0.900416, 0.838187, 1)
+metallic = 1.0

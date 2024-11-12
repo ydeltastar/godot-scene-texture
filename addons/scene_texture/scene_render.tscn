@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk87ymy32f7mu"]
+
+[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://addons/scene_texture/scene_render_world3d.tres" id="1_wxofr"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneRender.gd" id="2_vvh4a"]
+
+[node name="SceneRender" type="SubViewport"]
+own_world_3d = true
+world_3d = ExtResource("1_wxofr")
+transparent_bg = true
+msaa_3d = 2
+screen_space_aa = 1
+gui_disable_input = true
+size = Vector2i(64, 64)
+script = ExtResource("2_vvh4a")
+scene_process_mode = 0
+camera_rotation = Vector3(-0.698132, -0.436332, 0)
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(0.500003, -0.749999, 0.43301, -1.49013e-08, 0.499998, 0.866026, -0.866024, -0.433016, 0.250001, 0, 0, 0)
+shadow_enabled = true
+
+[node name="DirectionalLight3D_2" type="DirectionalLight3D" parent="Node3D"]
+transform = Transform3D(0.707107, 0.5, -0.5, 0, -0.707107, -0.707107, -0.707107, 0.5, -0.5, -1, -1, -1)
+light_color = Color(0.387225, 0.770214, 0.963008, 1)
+light_energy = 0.505
+light_angular_distance = 6.55
+
+[node name="CameraPivot" type="Node3D" parent="Node3D"]
+transform = Transform3D(0.906306, 0.271653, -0.323744, 0, 0.766041, 0.642787, 0.422617, -0.582561, 0.694271, 0, 0.175, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36557e-08, -6.77537e-08, 3)
+fov = 30.0
+far = 500.0
+
+[node name="Scene" type="Node3D" parent="Node3D"]

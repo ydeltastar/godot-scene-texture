@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d2q1fm1d5f4f7"]
+
+[resource]
+resource_name = "woodInner"
+albedo_color = Color(0.98256, 0.9276, 0.872103, 1)
+metallic = 1.0

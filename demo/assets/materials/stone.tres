@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://snokadkjlr3y"]
+
+[resource]
+resource_name = "stone"
+albedo_color = Color(0.865877, 0.948242, 0.959256, 1)
+metallic = 1.0

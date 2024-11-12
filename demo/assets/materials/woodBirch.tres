@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://30mmvheitcmb"]
+
+[resource]
+resource_name = "woodBirch"
+albedo_color = Color(1, 0.977247, 0.940805, 1)
+metallic = 1.0
