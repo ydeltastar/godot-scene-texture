@@ -75,6 +75,7 @@ func update_from_texture(texture:SceneTexture):
 	scene_rotation = texture.scene_rotation
 	scene_scale = texture.scene_scale
 	world_3d = texture.world_3d
+	transparent_bg = texture.transparent_bg
 	
 	_update()
 

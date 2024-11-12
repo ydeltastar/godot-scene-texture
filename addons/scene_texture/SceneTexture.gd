@@ -61,6 +61,15 @@ const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
 		_queue_update()
 
+## Render with transparent background.
+@export var transparent_bg = true:
+	set(value):
+		if transparent_bg == value:
+			return
+		
+		transparent_bg = value
+		_queue_update()
+
 @export_group("Scene", "scene_")
 @export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position:Vector3:
 	set(value):
