@@ -1,15 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://bk87ymy32f7mu"]
+[gd_scene load_steps=4 format=3 uid="uid://bk87ymy32f7mu"]
 
-[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://addons/scene_texture/scene_render_world3d.tres" id="1_wxofr"]
+[ext_resource type="Environment" uid="uid://c6fbe60ut1q1k" path="res://addons/scene_texture/scene_render_environment.tres" id="1_yartl"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneRender.gd" id="2_vvh4a"]
+
+[sub_resource type="World3D" id="World3D_ar1pl"]
+environment = ExtResource("1_yartl")
 
 [node name="SceneRender" type="SubViewport"]
 own_world_3d = true
-world_3d = ExtResource("1_wxofr")
+world_3d = SubResource("World3D_ar1pl")
 transparent_bg = true
 msaa_3d = 2
 screen_space_aa = 1
 gui_disable_input = true
+positional_shadow_atlas_16_bits = false
 size = Vector2i(64, 64)
 script = ExtResource("2_vvh4a")
 scene_process_mode = 0

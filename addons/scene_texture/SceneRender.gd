@@ -74,8 +74,19 @@ func update_from_texture(texture:SceneTexture):
 	scene_position = texture.scene_position
 	scene_rotation = texture.scene_rotation
 	scene_scale = texture.scene_scale
-	world_3d = texture.world_3d
 	transparent_bg = texture.transparent_bg
+	
+	var world: World3D = texture.world_3d
+	if not is_instance_valid(world):
+		var default_env = ProjectSettings.get_setting("scene_texture/default_world_3d")
+		if default_env:
+			world = load(default_env)
+	
+	#if world:
+		#world_3d.environment = world.environment
+	# FIXME: Just setting this variable gives an error in the editor
+	# https://github.com/godotengine/godot/issues/86456
+	#world_3d = world
 	
 	_update()
 

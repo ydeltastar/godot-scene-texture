@@ -6,27 +6,8 @@
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
 [ext_resource type="PackedScene" uid="uid://c16hp5nqp1ii" path="res://demo/objects/tree_fall.tscn" id="3_ppkn1"]
 [ext_resource type="PackedScene" uid="uid://bpqfy5ce80nnq" path="res://demo/objects/tree_detailed.tscn" id="4_shoq3"]
-[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://addons/scene_texture/scene_render_world3d.tres" id="5_p0g4b"]
 [ext_resource type="PackedScene" uid="uid://cww1kxyxn8y60" path="res://demo/objects/cactus.tscn" id="8_nj1ew"]
 [ext_resource type="PackedScene" uid="uid://diylmcnhom0ps" path="res://demo/objects/bed.tscn" id="9_2rkun"]
-
-[sub_resource type="Texture2D" id="Texture2D_nfuoc"]
-resource_local_to_scene = false
-resource_name = ""
-script = ExtResource("1_oi2nq")
-width = 96
-height = 96
-scene = ExtResource("1_otq1i")
-world_3d = ExtResource("5_p0g4b")
-transparent_bg = true
-scene_position = Vector3(0, 0, 0)
-scene_rotation = Vector3(0, 0, 0)
-scene_scale = Vector3(1, 1, 1)
-camera_distance = 2.28
-camera_position = Vector3(0, 0.72, 0)
-camera_rotation = Vector3(-0.523599, -0.436332, 0)
-render_auto_bake = true
-render_use_frames_to_converge = false
 
 [sub_resource type="Texture2D" id="Texture2D_nap66"]
 resource_local_to_scene = false
@@ -35,7 +16,6 @@ script = ExtResource("1_oi2nq")
 width = 96
 height = 96
 scene = ExtResource("3_ppkn1")
-world_3d = ExtResource("5_p0g4b")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
 scene_rotation = Vector3(0, 0.546288, 0)
@@ -53,7 +33,6 @@ script = ExtResource("1_oi2nq")
 width = 96
 height = 96
 scene = ExtResource("4_shoq3")
-world_3d = ExtResource("5_p0g4b")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
 scene_rotation = Vector3(0, 0, 0)
@@ -71,7 +50,6 @@ script = ExtResource("1_oi2nq")
 width = 96
 height = 96
 scene = ExtResource("8_nj1ew")
-world_3d = ExtResource("5_p0g4b")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
 scene_rotation = Vector3(0, 0, 0)
@@ -89,13 +67,32 @@ script = ExtResource("1_oi2nq")
 width = 96
 height = 96
 scene = ExtResource("9_2rkun")
-world_3d = ExtResource("5_p0g4b")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 1.245
 camera_position = Vector3(0.05, -0.01, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="World3D" id="World3D_yedup"]
+
+[sub_resource type="Texture2D" id="Texture2D_l366h"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("1_otq1i")
+world_3d = SubResource("World3D_yedup")
+transparent_bg = true
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.28
+camera_position = Vector3(0, 0.72, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
 render_auto_bake = true
 render_use_frames_to_converge = false
@@ -133,15 +130,6 @@ grow_vertical = 2
 layout_mode = 2
 columns = 2
 
-[node name="Button" type="Button" parent="Control/CenterContainer/GridContainer"]
-layout_mode = 2
-toggle_mode = true
-button_group = ExtResource("2_w4sxa")
-text = "Tree"
-icon = SubResource("Texture2D_nfuoc")
-icon_alignment = 1
-vertical_icon_alignment = 0
-
 [node name="Button2" type="Button" parent="Control/CenterContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
@@ -175,6 +163,16 @@ toggle_mode = true
 button_group = ExtResource("2_w4sxa")
 text = "Bed"
 icon = SubResource("Texture2D_fqi1k")
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button6" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Tree Custom Env"
+icon = SubResource("Texture2D_l366h")
+autowrap_mode = 2
 icon_alignment = 1
 vertical_icon_alignment = 0
 

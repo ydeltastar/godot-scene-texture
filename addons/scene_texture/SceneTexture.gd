@@ -67,6 +67,10 @@ const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		if transparent_bg == value:
 			return
 		
+		# FIXME: There is an outline around objects in transparent mode. Maybe feather postprocess the image to remove it.
+		# Premultiplied alpha issue? https://github.com/godotengine/godot/issues/17574#issuecomment-1200328756
+		# https://github.com/godotengine/godot/issues/78004
+		# https://github.com/godotengine/godot/issues/17574
 		transparent_bg = value
 		_queue_update()
 
