@@ -82,11 +82,12 @@ func update_from_texture(texture:SceneTexture):
 		if default_env:
 			world = load(default_env)
 	
-	#if world:
-		#world_3d.environment = world.environment
-	# FIXME: Just setting this variable gives an error in the editor
+	# HACK: Just setting world_3d gives an error in the editor. The SubViewport's own_world_3d must
+	# start as false so the error doesn't happen.
 	# https://github.com/godotengine/godot/issues/86456
-	#world_3d = world
+	# https://github.com/godotengine/godot/issues/56518#issuecomment-2316687375
+	world_3d = world
+	own_world_3d = true
 	
 	_update()
 

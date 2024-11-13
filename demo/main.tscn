@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://dbqiqfqf3pytg"]
 
-[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
-[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
+[ext_resource type="Script" uid="uid://c6h8ul5re0kff" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" uid="uid://dhcxcqpdk1hnr" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
 [ext_resource type="PackedScene" uid="uid://c16hp5nqp1ii" path="res://demo/objects/tree_fall.tscn" id="3_ppkn1"]
