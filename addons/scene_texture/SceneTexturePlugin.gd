@@ -6,7 +6,7 @@ var scene_texture_inspector = preload("res://addons/scene_texture/editor/SceneTe
 
 
 func _enter_tree() -> void:
-	add_setting("scene_texture/auto_bake_delay", 0.25)
+	add_setting("scene_texture/auto_bake_delay", 0.01)
 	add_setting("scene_texture/default_world_3d", "", TYPE_STRING, PROPERTY_HINT_FILE)
 	
 	add_inspector_plugin(scene_texture_inspector)

@@ -27,6 +27,8 @@ func _render_subviewport(iterations:int = 1, disable_main = false):
 	RenderingServer.viewport_set_size(viewport, size.x, size.y)
 	RenderingServer.viewport_set_transparent_background(viewport, true)
 	RenderingServer.viewport_set_active(viewport, true)
+	RenderingServer.viewport_set_msaa_3d(viewport, RenderingServer.VIEWPORT_MSAA_4X)
+	RenderingServer.viewport_set_screen_space_aa(viewport, RenderingServer.VIEWPORT_SCREEN_SPACE_AA_FXAA)
 	var viewport_texture = RenderingServer.viewport_get_texture(viewport)
 	
 	var instances = []
