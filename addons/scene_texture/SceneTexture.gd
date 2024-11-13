@@ -126,7 +126,7 @@ var camera_rotation = Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 		light_color = value
 		_queue_update()
 
-@export var light_energy: float = 1.0:
+@export var light_energy: float = 2.5:
 	set(value):
 		light_energy = value
 		_queue_update()
@@ -142,12 +142,18 @@ var light_angular_distance: float = 0:
 		light_shadow = value
 		_queue_update()
 
+@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
+var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
+	set(value):
+		light_rotation = value
+		_queue_update()
+
 @export_group("Render", "render_")
 ## Automatically request bake when settings change.
 ## [br][br]
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 @export var render_auto_bake = true
-## Use [ProjectSetting]'s `rendering/global_illumination/sdfgi/frames_to_converge` to render multiple
+## Use [ProjectSettings] [b]rendering/global_illumination/sdfgi/frames_to_converge[/b] to render multiple
 ## times so SDFGI stabilizes. Can slow down rendering significantly; use only when SDFGI is enabled.
 @export var render_use_frames_to_converge = false
 

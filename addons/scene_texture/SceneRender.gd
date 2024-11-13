@@ -75,6 +75,7 @@ func update_from_texture(texture:SceneTexture):
 	main_light.light_energy = texture.light_energy
 	main_light.light_angular_distance = texture.light_angular_distance
 	main_light.shadow_enabled = texture.light_shadow
+	main_light.global_rotation = texture.light_rotation
 	
 	var world: World3D = texture.world_3d
 	if not is_instance_valid(world):
