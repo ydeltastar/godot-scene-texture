@@ -1,7 +1,7 @@
 [gd_resource type="Environment" load_steps=3 format=3 uid="uid://d22ljvvlfrf5x"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fdqdj"]
-ground_bottom_color = Color(0.194009, 0.374214, 0.38949, 1)
+ground_bottom_color = Color(0.350784, 0.356968, 0.428122, 1)
 ground_curve = 0.278576
 
 [sub_resource type="Sky" id="Sky_6h4ch"]

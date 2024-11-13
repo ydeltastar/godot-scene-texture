@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://dbqiqfqf3pytg"]
+[gd_scene load_steps=17 format=3 uid="uid://dbqiqfqf3pytg"]
 
 [ext_resource type="Script" uid="uid://c6h8ul5re0kff" path="res://demo/Main.gd" id="1_j883o"]
-[ext_resource type="Script" uid="uid://dhcxcqpdk1hnr" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
+[ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
 [ext_resource type="PackedScene" uid="uid://c16hp5nqp1ii" path="res://demo/objects/tree_fall.tscn" id="3_ppkn1"]
 [ext_resource type="PackedScene" uid="uid://bpqfy5ce80nnq" path="res://demo/objects/tree_detailed.tscn" id="4_shoq3"]
@@ -18,7 +19,7 @@ height = 96
 scene = ExtResource("3_ppkn1")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
-scene_rotation = Vector3(0, 0.546288, 0)
+scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
 camera_position = Vector3(0, 0.72, 0)
@@ -103,6 +104,9 @@ albedo_color = Color(0.66612, 0.717192, 0.708549, 1)
 [node name="Main" type="Node3D" node_paths=PackedStringArray("scene_pivot")]
 script = ExtResource("1_j883o")
 scene_pivot = NodePath("ScenePivot")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("2_i30cj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)

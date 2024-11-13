@@ -169,7 +169,9 @@ func bake():
 		var v = [5, 10, 15, 20, 25, 30]
 		render_frames = v[converge]
 	
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(_render, render_frames))
+	var image = await _render.render(render_frames)
+	_set_texture_image(image)
+	_is_baking = false
 
 
 func is_baking():
@@ -178,38 +180,6 @@ func is_baking():
 
 
 #region Private Functions
-static var _main_viewport_active = true
-func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
-	# Disable main viewport so it doesn't redrawn
-	var scene_tree = Engine.get_main_loop() as SceneTree
-	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
-	var root_viewport = scene_tree.root.get_viewport().get_viewport_rid()
-	if disable_main:
-		RenderingServer.viewport_set_active(root_viewport, false)
-		_main_viewport_active = false
-	
-	for i in iterations:
-		await RenderingServer.frame_pre_draw
-		RenderingServer.viewport_set_update_mode(render.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_ONCE)
-		RenderingServer.force_draw(true, 1.0 / iterations)
-		await RenderingServer.frame_post_draw
-	
-	if not _main_viewport_active:
-		# Enable main viewport again
-		var v = scene_tree.root.get_viewport_rid()
-		RenderingServer.viewport_set_active(v, true)
-		_main_viewport_active = true
-		await RenderingServer.frame_post_draw # image data doesn't updates correctly without this..
-
-	# Set final texture
-	var image = _render.get_texture().get_image()
-	_render.queue_free()
-	_render = null
-	_is_baking = false
-	_set_texture_image(image)
-	bake_finished.emit()
-
-
 func _queue_update():
 	emit_changed()
 	if render_auto_bake == false:
@@ -272,7 +242,7 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if _texture.is_valid():
 			RenderingServer.free_rid(_texture)
-		
+
 
 func _create_render():
 	_render = SCENE_RENDER.instantiate()
