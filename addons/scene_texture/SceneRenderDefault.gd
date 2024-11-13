@@ -17,10 +17,7 @@ func render(iterations: int):
 func _render_subviewport(iterations:int = 1, disable_main = false):
 	RenderingServer.viewport_set_active(get_viewport_rid(), false)
 	
-	var mesh_instances = _get_children_of_type(self, MeshInstance3D)
-	
 	var scenario = RenderingServer.scenario_create()
-	
 	var viewport = RenderingServer.viewport_create()
 	RenderingServer.viewport_set_update_mode(viewport, RenderingServer.VIEWPORT_UPDATE_ALWAYS)
 	RenderingServer.viewport_set_scenario(viewport, scenario)
