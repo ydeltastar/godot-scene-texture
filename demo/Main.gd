@@ -7,10 +7,11 @@ extends Node3D
 var _current_scene:PackedScene
 
 @onready var _instance:Node3D = $ScenePivot/Tree1
+@onready var button_grid: GridContainer = $Control/CenterContainer/VBoxContainer/GridContainer
 
 
 func _ready() -> void:
-	for button:Button in $Control/CenterContainer/GridContainer.get_children():
+	for button:Button in button_grid.get_children():
 		button.pressed.connect(_on_button_pressed.bind(button))
 
 
@@ -30,3 +31,11 @@ func _on_button_pressed(button:Button):
 	_instance = _current_scene.instantiate()
 	
 	scene_pivot.add_child(_instance)
+
+
+func _on_rebake_pressed() -> void:
+	for button:Button in button_grid.get_children():
+		var texture = button.icon as SceneTexture
+		var rot = texture.scene_rotation
+		texture.scene_rotation = Vector3(rot.x, randf_range(0, TAU), rot.z)
+		texture.light_energy = randf_range(0.5, 3.0)

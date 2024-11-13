@@ -154,7 +154,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 @export var render_auto_bake = true
 ## Use [ProjectSettings] [b]rendering/global_illumination/sdfgi/frames_to_converge[/b] to render multiple
-## times so SDFGI stabilizes. Can slow down rendering significantly; use only when SDFGI is enabled.
+## times so [b]SDFGI[/b] stabilizes. It can slow down rendering significantly; use only when [b]SDFGI[/b] is enabled.
 @export var render_use_frames_to_converge = false
 
 var _texture:RID

@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dbqiqfqf3pytg"]
 
-[ext_resource type="Script" uid="uid://bd422cw2luq6o" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
@@ -128,6 +128,7 @@ render_use_frames_to_converge = false
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_na655"]
 sky_top_color = Color(0.79396, 0.177599, 0.231118, 1)
 sky_horizon_color = Color(0.966794, 0.519544, 0.137524, 1)
+sky_curve = 0.178381
 
 [sub_resource type="Sky" id="Sky_4u7w6"]
 sky_material = SubResource("ProceduralSkyMaterial_na655")
@@ -135,6 +136,7 @@ sky_material = SubResource("ProceduralSkyMaterial_na655")
 [sub_resource type="Environment" id="Environment_jrt21"]
 background_mode = 2
 sky = SubResource("Sky_4u7w6")
+ssao_enabled = true
 
 [sub_resource type="World3D" id="World3D_5xixx"]
 environment = SubResource("Environment_jrt21")
@@ -174,7 +176,7 @@ scene_pivot = NodePath("ScenePivot")
 environment = ExtResource("2_i30cj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+transform = Transform3D(0.287749, -0.829399, 0.478852, -3.51903e-08, 0.499998, 0.866027, -0.957706, -0.249198, 0.143874, 0, 0, 0)
 shadow_enabled = true
 shadow_blur = 0.0
 directional_shadow_blend_splits = true
@@ -193,16 +195,19 @@ layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -240.5
+offset_top = -258.0
 offset_right = 276.0
-offset_bottom = 240.5
+offset_bottom = 258.0
 grow_vertical = 2
 
-[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 columns = 2
 
-[node name="Button2" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button2" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -211,7 +216,7 @@ icon = SubResource("Texture2D_nap66")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button3" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button3" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -220,7 +225,7 @@ icon = SubResource("Texture2D_0431j")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button4" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button4" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -229,7 +234,7 @@ icon = SubResource("Texture2D_2ecfp")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button5" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button5" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -238,7 +243,7 @@ icon = SubResource("Texture2D_fqi1k")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button6" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button6" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -249,7 +254,7 @@ autowrap_mode = 2
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button7" type="Button" parent="Control/CenterContainer/GridContainer"]
+[node name="Button7" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -259,6 +264,10 @@ icon = SubResource("Texture2D_l366h")
 autowrap_mode = 2
 icon_alignment = 1
 vertical_icon_alignment = 0
+
+[node name="Button" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Randomize Settings"
 
 [node name="ScenePivot" type="Node3D" parent="."]
 
@@ -271,3 +280,5 @@ material = SubResource("StandardMaterial3D_abv04")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.744338, -0.21629, 0.631807, 0, 0.946097, 0.323883, -0.667803, -0.241078, 0.704216, 1.15128, 1.22734, 1.54946)
+
+[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Button" to="." method="_on_rebake_pressed"]
