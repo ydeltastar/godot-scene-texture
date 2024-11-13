@@ -7,8 +7,8 @@ extends SceneRender
 
 
 # --- Public Functions --- #
-func render(iteration: int):
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, iteration))
+func render(iterations: int):
+	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, iterations))
 
 
 # --- Private Functions --- #

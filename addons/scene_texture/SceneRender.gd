@@ -122,7 +122,7 @@ func _create_scene():
 
 
 ## Implemented in the child classes
-func render(iteration: int):
+func render(iterations: int):
 	pass
 
 
