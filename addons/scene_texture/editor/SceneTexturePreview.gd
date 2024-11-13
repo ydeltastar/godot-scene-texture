@@ -44,6 +44,9 @@ func _ready() -> void:
 		
 		loading.texture = ani_texture
 	
+	# FIXME: Remove the subview completly instead of just hiding
+	$VBoxContainer.visible = false
+	
 	if Engine.is_editor_hint():
 		return
 	
@@ -61,6 +64,8 @@ func update():
 	if _render and _scene_texture:
 		_render.update_from_texture(_scene_texture)
 
+
+func _process(delta: float) -> void:
 	loading.texture.pause = _is_paused()
 
 
