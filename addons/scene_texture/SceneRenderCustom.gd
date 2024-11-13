@@ -25,7 +25,7 @@ func _render_subviewport(iterations:int = 1, disable_main = false):
 	RenderingServer.viewport_set_update_mode(viewport, RenderingServer.VIEWPORT_UPDATE_ALWAYS)
 	RenderingServer.viewport_set_scenario(viewport, scenario)
 	RenderingServer.viewport_set_size(viewport, size.x, size.y)
-	RenderingServer.viewport_set_transparent_background(viewport, true)
+	RenderingServer.viewport_set_transparent_background(viewport, transparent_bg)
 	RenderingServer.viewport_set_active(viewport, true)
 	RenderingServer.viewport_set_msaa_3d(viewport, RenderingServer.VIEWPORT_MSAA_4X)
 	RenderingServer.viewport_set_screen_space_aa(viewport, RenderingServer.VIEWPORT_SCREEN_SPACE_AA_FXAA)
@@ -35,7 +35,6 @@ func _render_subviewport(iterations:int = 1, disable_main = false):
 	for node in get_all_children(self):
 		if node is VisualInstance3D:
 			var base = node.get_instance()
-			print(node, base.is_valid())
 			if base.is_valid():
 				RenderingServer.instance_set_scenario(base, scenario)
 		elif node is Camera3D: #and node == get_viewport().get_camera_3d():

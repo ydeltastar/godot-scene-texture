@@ -48,6 +48,11 @@ signal render_finished
 @onready var scene_parent: Node3D = $Node3D/Scene
 @onready var camera_pivot: Node3D = $Node3D/CameraPivot
 @onready var camera: Camera3D = $Node3D/CameraPivot/Camera3D
+@onready var main_light: DirectionalLight3D = $Node3D/DirectionalLight3D
+
+var light_color: Color
+var light_energy: float
+var light_angular_distance: float
 
 var _render: Image
 
@@ -65,6 +70,11 @@ func update_from_texture(texture:SceneTexture):
 	scene_rotation = texture.scene_rotation
 	scene_scale = texture.scene_scale
 	transparent_bg = texture.transparent_bg
+	
+	main_light.light_color = texture.light_color
+	main_light.light_energy = texture.light_energy
+	main_light.light_angular_distance = texture.light_angular_distance
+	main_light.shadow_enabled = texture.light_shadow
 	
 	var world: World3D = texture.world_3d
 	if not is_instance_valid(world):

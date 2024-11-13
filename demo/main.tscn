@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://dbqiqfqf3pytg"]
+[gd_scene load_steps=21 format=3 uid="uid://dbqiqfqf3pytg"]
 
 [ext_resource type="Script" uid="uid://bd422cw2luq6o" path="res://demo/Main.gd" id="1_j883o"]
-[ext_resource type="Script" uid="uid://bib1qvajam0a7" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
@@ -25,6 +25,10 @@ scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
 camera_position = Vector3(0, 0.72, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 1.0
+light_angular_distance = 0.0
+light_shadow = false
 render_auto_bake = true
 render_use_frames_to_converge = false
 
@@ -43,6 +47,10 @@ scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.425
 camera_position = Vector3(0, 0.79, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 1.0
+light_angular_distance = 0.0
+light_shadow = false
 render_auto_bake = true
 render_use_frames_to_converge = false
 
@@ -61,6 +69,10 @@ scene_scale = Vector3(1, 1, 1)
 camera_distance = 1.27
 camera_position = Vector3(0, 0.31, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 1.0
+light_angular_distance = 0.0
+light_shadow = false
 render_auto_bake = true
 render_use_frames_to_converge = false
 
@@ -79,10 +91,48 @@ scene_scale = Vector3(1, 1, 1)
 camera_distance = 1.245
 camera_position = Vector3(0.05, -0.01, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 3.015
+light_angular_distance = 0.0
+light_shadow = false
 render_auto_bake = true
 render_use_frames_to_converge = false
 
-[sub_resource type="World3D" id="World3D_yedup"]
+[sub_resource type="Texture2D" id="Texture2D_2tgy0"]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("1_oi2nq")
+width = 96
+height = 96
+scene = ExtResource("1_otq1i")
+render_method = 1
+transparent_bg = true
+scene_position = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0.71384, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.28
+camera_position = Vector3(0, 0.72, 0)
+camera_rotation = Vector3(-0.523599, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 1.0
+light_angular_distance = 0.0
+light_shadow = false
+render_auto_bake = true
+render_use_frames_to_converge = false
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_na655"]
+sky_top_color = Color(0.79396, 0.177599, 0.231118, 1)
+sky_horizon_color = Color(0.966794, 0.519544, 0.137524, 1)
+
+[sub_resource type="Sky" id="Sky_4u7w6"]
+sky_material = SubResource("ProceduralSkyMaterial_na655")
+
+[sub_resource type="Environment" id="Environment_jrt21"]
+background_mode = 2
+sky = SubResource("Sky_4u7w6")
+
+[sub_resource type="World3D" id="World3D_5xixx"]
+environment = SubResource("Environment_jrt21")
 
 [sub_resource type="Texture2D" id="Texture2D_l366h"]
 resource_local_to_scene = false
@@ -92,14 +142,18 @@ width = 96
 height = 96
 scene = ExtResource("1_otq1i")
 render_method = 1
-world_3d = SubResource("World3D_yedup")
+world_3d = SubResource("World3D_5xixx")
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
 camera_position = Vector3(0, 0.72, 0)
-camera_rotation = Vector3(-0.523599, -0.436332, 0)
+camera_rotation = Vector3(-0.523599, 2.56214, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 1.0
+light_angular_distance = 0.0
+light_shadow = false
 render_auto_bake = true
 render_use_frames_to_converge = false
 
@@ -179,7 +233,19 @@ vertical_icon_alignment = 0
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
-text = "Tree Custom Env"
+text = "Tree
+Default Env"
+icon = SubResource("Texture2D_2tgy0")
+autowrap_mode = 2
+icon_alignment = 1
+vertical_icon_alignment = 0
+
+[node name="Button7" type="Button" parent="Control/CenterContainer/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+button_group = ExtResource("2_w4sxa")
+text = "Tree
+Custom Env"
 icon = SubResource("Texture2D_l366h")
 autowrap_mode = 2
 icon_alignment = 1

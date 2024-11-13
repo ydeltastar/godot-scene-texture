@@ -85,7 +85,7 @@ func _setup() -> void:
 func _create_render() -> SceneRender:
 	var render
 	match _scene_texture.render_method:
-		SceneTexture.RenderMethod.Custom:
+		SceneTexture.RenderMethod.Default:
 			render = SCENE_RENDER_CUSTOM.instantiate()
 		
 		SceneTexture.RenderMethod.Internal:

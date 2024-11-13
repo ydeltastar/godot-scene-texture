@@ -9,13 +9,14 @@ class_name SceneTexture extends Texture2D
 signal bake_finished
 
 enum RenderMethod {
-	Custom,
+	Default,
 	Internal
 }
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_custom.tscn")
 
+@export_group("Texture")
 ## Texture bake width.
 @export var width = 64:
 	set(value):
@@ -39,15 +40,17 @@ const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_cus
 		scene = value
 		_queue_update()
 
-@export var render_method = RenderMethod.Custom:
+@export var render_method = RenderMethod.Default:
 	set(value):
 		if render_method == value:
 			return
 		
 		render_method = value
+		notify_property_list_changed()
 		_queue_update()
 
-## Define custom environment settings. The render will use the default [World3D] if this is not provided.
+## Define custom environment settings for the internal render. The render will use the default [World3D] if this is not provided.
+## [br][br]
 ## [b]Note:[/b] that the bake doesn't automatically updates when properties of the [Environment] or [CameraAttributes] change.
 ## You have to call [method bake].
 @export var world_3d:World3D:
@@ -117,8 +120,32 @@ var camera_rotation = Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 		camera_rotation = value
 		_queue_update()
 
+@export_group("Light", "light_")
+@export var light_color = Color.WHITE:
+	set(value):
+		light_color = value
+		_queue_update()
+
+@export var light_energy: float = 1.0:
+	set(value):
+		light_energy = value
+		_queue_update()
+
+@export_custom(PROPERTY_HINT_RANGE, "0,90,0.1,radians_as_degrees")
+var light_angular_distance: float = 0:
+	set(value):
+		light_angular_distance = value
+		_queue_update()
+
+@export var light_shadow = false:
+	set(value):
+		light_shadow = value
+		_queue_update()
+
 @export_group("Render", "render_")
 ## Automatically request bake when settings change.
+## [br][br]
+## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 @export var render_auto_bake = true
 ## Use [ProjectSetting]'s `rendering/global_illumination/sdfgi/frames_to_converge` to render multiple
 ## times so SDFGI stabilizes. Can slow down rendering significantly; use only when SDFGI is enabled.
@@ -153,6 +180,12 @@ func _get_width() -> int:
 
 func _get_height() -> int:
 	return _texture_height
+
+
+func _validate_property(property: Dictionary):
+	if property.name == "world_3d":
+		if render_method != RenderMethod.Internal:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
 #endregion
 
 
@@ -177,6 +210,7 @@ func bake():
 	var scene_tree = Engine.get_main_loop() as SceneTree
 	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
 	scene_tree.root.add_child(_render, false, Node.INTERNAL_MODE_BACK)
+	_render.update_from_texture(self)
 
 	var render_frames = 1
 	if render_use_frames_to_converge:
@@ -265,11 +299,9 @@ func _notification(what: int) -> void:
 
 func _create_render():
 	match render_method:
-		RenderMethod.Custom:
+		RenderMethod.Default:
 			_render = SCENE_RENDER_CUSTOM.instantiate()
 		
 		RenderMethod.Internal:
 			_render = SCENE_RENDER.instantiate()
-
-	_render.update_from_texture(self)
 #endregion
