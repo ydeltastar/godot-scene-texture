@@ -28,4 +28,3 @@ anti_aliasing/quality/msaa_3d.release=1
 [scene_texture]
 
 default_world_3d="res://demo/default_scene_texture_world3d.tres"
-auto_bake_delay=0.01

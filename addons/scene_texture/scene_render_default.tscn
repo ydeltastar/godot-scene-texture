@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dqdk3od5tikxp"]
 
-[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderCustom.gd" id="1_qfpoj"]
-[ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="2_viesp"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderDefault.gd" id="1_y522l"]
+[ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="2_yy15b"]
 
 [node name="SceneRender" type="SubViewport"]
 transparent_bg = true
@@ -10,8 +10,8 @@ screen_space_aa = 1
 gui_disable_input = true
 positional_shadow_atlas_16_bits = false
 size = Vector2i(64, 64)
-script = ExtResource("1_qfpoj")
-scene = ExtResource("2_viesp")
+script = ExtResource("1_y522l")
+scene = ExtResource("2_yy15b")
 scene_process_mode = 0
 camera_position = Vector3(0, 0.555, 0)
 

@@ -14,7 +14,7 @@ enum RenderMethod {
 }
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
-const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_custom.tscn")
+const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
 @export_group("Texture")
 ## Texture bake width.
