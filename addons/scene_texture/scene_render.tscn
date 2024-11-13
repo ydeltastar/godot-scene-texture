@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bk87ymy32f7mu"]
 
-[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderInternal.gd" id="1_p2kid"]
+[ext_resource type="Script" uid="uid://dmcv3e3exsx2i" path="res://addons/scene_texture/SceneRenderInternal.gd" id="1_p2kid"]
 [ext_resource type="PackedScene" uid="uid://cww1kxyxn8y60" path="res://demo/objects/cactus.tscn" id="2_yxu86"]
 
 [node name="SceneRender" type="SubViewport"]

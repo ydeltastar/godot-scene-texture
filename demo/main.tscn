@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://dbqiqfqf3pytg"]
 
-[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
-[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
+[ext_resource type="Script" uid="uid://bd422cw2luq6o" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" uid="uid://bib1qvajam0a7" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
@@ -74,7 +74,7 @@ scene = ExtResource("9_2rkun")
 render_method = 0
 transparent_bg = true
 scene_position = Vector3(0, 0, 0)
-scene_rotation = Vector3(0, 0, 0)
+scene_rotation = Vector3(0, 0.797615, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 1.245
 camera_position = Vector3(0.05, -0.01, 0)
