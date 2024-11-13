@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bk87ymy32f7mu"]
 
-[ext_resource type="Script" uid="uid://cwyii2hl6wkqb" path="res://addons/scene_texture/SceneRender.gd" id="2_vvh4a"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderInternal.gd" id="1_p2kid"]
 
 [node name="SceneRender" type="SubViewport"]
 transparent_bg = true
@@ -9,7 +9,7 @@ screen_space_aa = 1
 gui_disable_input = true
 positional_shadow_atlas_16_bits = false
 size = Vector2i(64, 64)
-script = ExtResource("2_vvh4a")
+script = ExtResource("1_p2kid")
 scene_process_mode = 0
 camera_rotation = Vector3(-0.698132, -0.436332, 0)
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://dbqiqfqf3pytg"]
 
-[ext_resource type="Script" uid="uid://c6h8ul5re0kff" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
