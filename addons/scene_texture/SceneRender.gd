@@ -6,7 +6,7 @@ class_name SceneRender extends SubViewport
 signal render_finished
 
 ## Scene to render.
-@export var scene:PackedScene:
+@export var scene: PackedScene:
 	set(value):
 		if scene == value:
 			return
@@ -15,14 +15,14 @@ signal render_finished
 		_create_scene.call_deferred()
 		_update()
 ## Process mode of the scene.
-@export var scene_process_mode:ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
+@export var scene_process_mode: ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
 
 @export_group("Scene Transform", "scene_")
-@export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position:Vector3:
+@export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position: Vector3:
 	set(value):
 		scene_position = value
 		_update()
-@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation:Vector3:
+@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation: Vector3:
 	set(value):
 		scene_rotation = value
 		_update()
@@ -32,7 +32,7 @@ signal render_finished
 		_update()
 
 @export_group("Camera", "camera_")
-@export var camera_distance:float = 3.0:
+@export var camera_distance: float = 3.0:
 	set(value):
 		camera_distance = value
 		_update()
@@ -49,19 +49,7 @@ signal render_finished
 @onready var camera_pivot: Node3D = $Node3D/CameraPivot
 @onready var camera: Camera3D = $Node3D/CameraPivot/Camera3D
 
-
-func _update():
-	if not is_node_ready():
-		await ready
-	
-	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
-	
-	camera_pivot.position = camera_position
-	camera_pivot.global_rotation = camera_rotation
-	camera.position.z = camera_distance
-	scene_parent.position = scene_position
-	scene_parent.rotation = scene_rotation
-	scene_parent.scale = scene_scale
+var _render: Image
 
 
 ## Update render setting using the [SceneTexture] settings.
@@ -102,6 +90,20 @@ func _process(delta: float) -> void:
 		canvas.queue_redraw() # Required for the rendering to update during the delay
 
 
+func _update():
+	if not is_node_ready():
+		await ready
+	
+	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
+	
+	camera_pivot.position = camera_position
+	camera_pivot.global_rotation = camera_rotation
+	camera.position.z = camera_distance
+	scene_parent.position = scene_position
+	scene_parent.rotation = scene_rotation
+	scene_parent.scale = scene_scale
+
+
 func _create_scene():
 	var scene_node = _get_scene_node()
 	if scene_node:
@@ -119,15 +121,13 @@ func _create_scene():
 		scene_parent.add_child(node)
 
 
+## Implemented in the child classes
 func render(iteration: int):
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, iteration))
-	await render_finished
-	return get_texture().get_image()
-
-
-# Implemented in the child classes
-func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
 	pass
+
+
+func get_render() -> Image:
+	return _render
 
 
 func _get_scene_node() -> Node3D:

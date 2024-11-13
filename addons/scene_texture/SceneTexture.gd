@@ -8,7 +8,13 @@ class_name SceneTexture extends Texture2D
 ## Emitted when the texture baking finished.
 signal bake_finished
 
+enum RenderMethod {
+	Custom,
+	Internal
+}
+
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
+const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_custom.tscn")
 
 ## Texture bake width.
 @export var width = 64:
@@ -31,6 +37,14 @@ const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 			return
 			
 		scene = value
+		_queue_update()
+
+@export var render_method = RenderMethod.Custom:
+	set(value):
+		if render_method == value:
+			return
+		
+		render_method = value
 		_queue_update()
 
 ## Define custom environment settings. The render will use the default [World3D] if this is not provided.
@@ -144,6 +158,7 @@ func _get_height() -> int:
 
 #region Public Functions
 ## Render scene and update the texture's image.
+var _image
 func bake():
 	if not scene or _is_baking:
 		return
@@ -169,8 +184,12 @@ func bake():
 		var v = [5, 10, 15, 20, 25, 30]
 		render_frames = v[converge]
 	
-	var image = await _render.render(render_frames)
-	_set_texture_image(image)
+	_render.render_finished.connect(_on_render_finished)
+	_image = await _render.render(render_frames)
+
+
+func _on_render_finished():
+	_set_texture_image(_render.get_render())
 	_is_baking = false
 
 
@@ -245,6 +264,12 @@ func _notification(what: int) -> void:
 
 
 func _create_render():
-	_render = SCENE_RENDER.instantiate()
+	match render_method:
+		RenderMethod.Custom:
+			_render = SCENE_RENDER_CUSTOM.instantiate()
+		
+		RenderMethod.Internal:
+			_render = SCENE_RENDER.instantiate()
+
 	_render.update_from_texture(self)
 #endregion

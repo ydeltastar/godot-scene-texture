@@ -3,19 +3,15 @@ extends SceneRender
 ## Render a [SceneTexture] using the engine internal render.
 
 
-# --- Signals --- #
-# --- Enums --- #
-# --- Constants --- #
-# --- Exported Variables --- #
-# --- Public Variables --- #
-# --- Private Variables --- #
-# --- Onready Variables --- #
-
-
 # --- Engine Callbacks --- #
 
 
 # --- Public Functions --- #
+func render(iteration: int):
+	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, iteration))
+
+
+# --- Private Functions --- #
 static var _main_viewport_active = true
 func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
 	# Disable main viewport so it doesn't redrawn
@@ -39,11 +35,9 @@ func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main =
 		_main_viewport_active = true
 		await RenderingServer.frame_post_draw # image data doesn't updates correctly without this..
 
+	_render = get_texture().get_image()
 	# Set final texture
 	render_finished.emit()
 
 
 # --- Private Functions --- #
-# - Common Use Functions - #
-# - Setget Functions - #
-# - Signal Functions - #

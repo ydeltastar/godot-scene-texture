@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bk87ymy32f7mu"]
+[gd_scene load_steps=3 format=3 uid="uid://dqdk3od5tikxp"]
 
-[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderInternal.gd" id="1_p2kid"]
-[ext_resource type="PackedScene" uid="uid://cww1kxyxn8y60" path="res://demo/objects/cactus.tscn" id="2_yxu86"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneRenderCustom.gd" id="1_qfpoj"]
+[ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="2_viesp"]
 
 [node name="SceneRender" type="SubViewport"]
 transparent_bg = true
@@ -10,12 +10,11 @@ screen_space_aa = 1
 gui_disable_input = true
 positional_shadow_atlas_16_bits = false
 size = Vector2i(64, 64)
-script = ExtResource("1_p2kid")
-scene = ExtResource("2_yxu86")
+script = ExtResource("1_qfpoj")
+scene = ExtResource("2_viesp")
 scene_process_mode = 0
-scene_rotation = Vector3(0, 0.397935, 0)
-camera_distance = 1.295
-camera_position = Vector3(0, 0.28, 0)
+scene_rotation = Vector3(0, 0.39619, 0)
+camera_position = Vector3(0, 0.555, 0)
 
 [node name="Node3D" type="Node3D" parent="."]
 
@@ -30,12 +29,12 @@ light_energy = 0.505
 light_angular_distance = 6.55
 
 [node name="CameraPivot" type="Node3D" parent="Node3D"]
-transform = Transform3D(0.906306, 0.211308, -0.365998, 0, 0.866022, 0.499999, 0.422617, -0.453152, 0.784885, 0, 0.28, 0)
+transform = Transform3D(0.906306, 0.211308, -0.365998, 0, 0.866022, 0.499999, 0.422617, -0.453152, 0.784885, 0, 0.555, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Node3D/CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36557e-08, -6.77537e-08, 1.295)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.36557e-08, -6.77537e-08, 3)
 fov = 30.0
 far = 500.0
 
 [node name="Scene" type="Node3D" parent="Node3D"]
-transform = Transform3D(0.921863, 0, 0.387516, 0, 1, 0, -0.387516, 0, 0.921863, 0, 0, 0)
+transform = Transform3D(0.922538, 0, 0.385906, 0, 1, 0, -0.385906, 0, 0.922538, 0, 0, 0)
