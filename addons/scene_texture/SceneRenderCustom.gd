@@ -11,7 +11,7 @@ func render(iterations: int):
 	await get_tree().process_frame
 	
 	render_target_update_mode = UpdateMode.UPDATE_ALWAYS
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(iterations))
+	_render_subviewport(iterations)
 
 
 func _render_subviewport(iterations:int = 1, disable_main = false):
@@ -31,34 +31,22 @@ func _render_subviewport(iterations:int = 1, disable_main = false):
 	
 	var instances = []
 	for node in get_all_children(self):
-		if node is MeshInstance3D:
-			var base = node.get_base()
-			if node.mesh:
-				var instance = RenderingServer.instance_create2(node.mesh.get_rid(), scenario)
-				RenderingServer.instance_set_transform(instance, Transform3D())
-				instances.append(instance)
+		if node is VisualInstance3D:
+			var base = node.get_instance()
+			print(node, base.is_valid())
+			if base.is_valid():
+				RenderingServer.instance_set_scenario(base, scenario)
 		elif node is Camera3D: #and node == get_viewport().get_camera_3d():
-			var camera = RenderingServer.camera_create()
+			var camera = node.get_camera_rid()
 			RenderingServer.viewport_attach_camera(viewport, camera)
-			RenderingServer.camera_set_transform(camera, node.global_transform)
-			RenderingServer.camera_set_perspective(camera, node.fov, node.near, node.far)
 			instances.append(camera)
-		elif node is DirectionalLight3D:
-			var light = RenderingServer.directional_light_create()
-			var light_instance = RenderingServer.instance_create2(light, scenario)
-			var xform = node.global_transform
-			xform.basis = xform.basis.inverse()
-			RenderingServer.instance_set_transform(light_instance, xform)
-			instances.append(light_instance)
 	
 	await RenderingServer.frame_pre_draw
-	RenderingServer.force_draw(true, 1.0 / iterations)
+	RenderingServer.force_draw(false, 1.0 / iterations)
 	await RenderingServer.frame_post_draw
 	
 	_render = RenderingServer.texture_2d_get(viewport_texture)
 	
-	for instance in instances:
-		RenderingServer.free_rid(instance)
 	RenderingServer.free_rid(viewport)
 	RenderingServer.free_rid(scenario)
 	
