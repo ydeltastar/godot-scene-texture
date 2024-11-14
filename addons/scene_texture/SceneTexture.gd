@@ -167,16 +167,8 @@ var _is_baking = false
 var _timer:Timer
 var _render:SceneRender
 
-# Default texture when the render is not ready.
-static var _placeholder_texture:ImageTexture
-
 
 #region Engine Callbacks
-static func _static_init() -> void:
-	var image = Image.create_empty(1, 1, true, Image.FORMAT_RGBA8)
-	_placeholder_texture = ImageTexture.create_from_image(image)
-	
-
 func _init() -> void:
 	_setup.call_deferred()
 
@@ -184,7 +176,8 @@ func _init() -> void:
 func _get_rid() -> RID:
 	if not _texture.is_valid():
 		# TODO: Use a transparent texture instead
-		_texture = _placeholder_texture.get_rid()
+		var image = Image.create_empty(width, height, true, Image.FORMAT_RGBA8)
+		_set_texture_image(image)
 	
 	return _texture
 
@@ -312,7 +305,7 @@ func _set_texture_image(image:Image):
 	assert(image.get_width() == width)
 	assert(image.get_height() == height)
 	
-	if _texture.is_valid() and _texture != _placeholder_texture.get_rid():
+	if _texture.is_valid():
 		var new_texture = RenderingServer.texture_2d_create(image)
 		RenderingServer.texture_replace(_texture, new_texture)
 	else:

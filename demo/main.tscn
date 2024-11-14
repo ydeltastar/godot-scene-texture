@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dbqiqfqf3pytg"]
+[gd_scene load_steps=20 format=3 uid="uid://dbqiqfqf3pytg"]
 
 [ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://ds06y47egew6" path="res://demo/assets/models/bed.glb" id="8_p72rv"]
 [ext_resource type="PackedScene" uid="uid://dyva5tkj2xmm0" path="res://demo/assets/models/tree_blocks.glb" id="9_n7f3y"]
 
-[sub_resource type="Texture2D" id="Texture2D_nap66"]
+[sub_resource type="Texture2D" id="Texture2D_jbx0s"]
 resource_local_to_scene = false
 resource_name = ""
 script = ExtResource("1_oi2nq")
@@ -147,6 +147,13 @@ render_store_bake = false
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_abv04"]
 albedo_color = Color(0.66612, 0.717192, 0.708549, 1)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miisf"]
+transparency = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_ednu6"]
+material = SubResource("StandardMaterial3D_miisf")
+size = Vector2(0.25, 0.25)
+
 [node name="Main" type="Node3D" node_paths=PackedStringArray("scene_pivot")]
 script = ExtResource("1_j883o")
 scene_pivot = NodePath("ScenePivot")
@@ -155,11 +162,14 @@ scene_pivot = NodePath("ScenePivot")
 environment = ExtResource("2_i30cj")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.287749, -0.829399, 0.478852, -3.51903e-08, 0.499998, 0.866027, -0.957706, -0.249198, 0.143874, 0, 0, 0)
+transform = Transform3D(0.738488, 0.583933, -0.337132, -2.40807e-08, 0.499998, 0.866027, 0.674266, -0.63955, 0.369242, 0, 0, 0)
 shadow_enabled = true
-shadow_blur = 0.0
+shadow_blur = 0.825
+directional_shadow_split_2 = 0.131
+directional_shadow_split_3 = 0.261
 directional_shadow_blend_splits = true
-directional_shadow_max_distance = 29.3
+directional_shadow_fade_start = 0.316
+directional_shadow_max_distance = 8.0
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -192,7 +202,7 @@ layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
 text = "Tree Fall"
-icon = SubResource("Texture2D_nap66")
+icon = SubResource("Texture2D_jbx0s")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
@@ -254,10 +264,35 @@ text = "Randomize Settings"
 
 [node name="CSGBox3D" type="CSGBox3D" parent="ScenePivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0466338, 0)
-size = Vector3(1, 0.0932676, 1)
+size = Vector3(0.826, 0.093, 0.826)
 material = SubResource("StandardMaterial3D_abv04")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.744338, -0.21629, 0.631807, 0, 0.946097, 0.323883, -0.667803, -0.241078, 0.704216, 1.15128, 1.22734, 1.54946)
+[node name="Node3D2" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="Node3D2"]
+transform = Transform3D(0.973992, -4.34439e-08, 0.226584, -0.0586441, 0.965926, 0.252088, -0.218863, -0.258819, 0.940804, -0.0226147, 0.958992, 1.9568)
+far = 8.0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101908, 0)
+radius = 0.9
+height = 0.093
+sides = 32
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.970435, 0, -0.241363, 0, 1, 0, 0.241363, 0, 0.970435, 0.557, 0, 0.532)
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.126096, 0)
+radius = 0.0219307
+height = 0.369994
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0.339434, 0.0118795)
+size = Vector3(0.28, 0.28, 0.017)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.14907e-10, 0.00922859)
+mesh = SubResource("QuadMesh_ednu6")
 
 [connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Button" to="." method="_on_rebake_pressed"]
