@@ -1,0 +1,51 @@
+[remap]
+
+importer="scene"
+importer_version=1
+type="PackedScene"
+uid="uid://dm5w3m8w5j42p"
+path="res://.godot/imported/tree_detailed.glb-a4bac6578ce8e9333138a035acd17476.scn"
+
+[deps]
+
+source_file="res://demo/assets/models/tree_detailed.glb"
+dest_files=["res://.godot/imported/tree_detailed.glb-a4bac6578ce8e9333138a035acd17476.scn"]
+
+[params]
+
+nodes/root_type=""
+nodes/root_name=""
+nodes/apply_root_scale=true
+nodes/root_scale=1.0
+nodes/import_as_skeleton_bones=false
+meshes/ensure_tangents=true
+meshes/generate_lods=true
+meshes/create_shadow_meshes=true
+meshes/light_baking=1
+meshes/lightmap_texel_size=0.2
+meshes/force_disable_compression=false
+skins/use_named_skins=true
+animation/import=true
+animation/fps=30
+animation/trimming=false
+animation/remove_immutable_tracks=true
+animation/import_rest_as_RESET=false
+import_script/path=""
+_subresources={
+"materials": {
+"_defaultMat": {
+"use_external/enabled": false,
+"use_external/path": "res://demo/assets/materials/_defaultMat.tres"
+},
+"leafsGreen": {
+"use_external/enabled": true,
+"use_external/path": "res://demo/assets/materials/leafsGreen.tres"
+},
+"woodBark": {
+"use_external/enabled": true,
+"use_external/path": "res://demo/assets/materials/woodBark.tres"
+}
+}
+}
+gltf/naming_version=1
+gltf/embedded_image_handling=1

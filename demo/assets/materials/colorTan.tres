@@ -1,6 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://bydtcnhoknemx"]
-
-[resource]
-resource_name = "colorTan"
-albedo_color = Color(1, 0.844683, 0.691011, 1)
-metallic = 1.0

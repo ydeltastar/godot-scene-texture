@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
-[ext_resource type="PackedScene" uid="uid://cnctg2f7sqkfe" path="res://demo/objects/tree.tscn" id="1_otq1i"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
-[ext_resource type="PackedScene" uid="uid://c16hp5nqp1ii" path="res://demo/objects/tree_fall.tscn" id="3_ppkn1"]
-[ext_resource type="PackedScene" uid="uid://bpqfy5ce80nnq" path="res://demo/objects/tree_detailed.tscn" id="4_shoq3"]
-[ext_resource type="PackedScene" uid="uid://cww1kxyxn8y60" path="res://demo/objects/cactus.tscn" id="8_nj1ew"]
-[ext_resource type="PackedScene" uid="uid://diylmcnhom0ps" path="res://demo/objects/bed.tscn" id="9_2rkun"]
+[ext_resource type="PackedScene" uid="uid://b8dhifickdrll" path="res://demo/assets/models/tree_blocks_fall.glb" id="4_0ntgt"]
+[ext_resource type="PackedScene" uid="uid://dm5w3m8w5j42p" path="res://demo/assets/models/tree_detailed.glb" id="6_7omst"]
+[ext_resource type="PackedScene" uid="uid://c8mdsyxmrlvpc" path="res://demo/assets/models/cactus_short.glb" id="7_h7q65"]
+[ext_resource type="PackedScene" uid="uid://ds06y47egew6" path="res://demo/assets/models/bed.glb" id="8_p72rv"]
+[ext_resource type="PackedScene" uid="uid://dyva5tkj2xmm0" path="res://demo/assets/models/tree_blocks.glb" id="9_n7f3y"]
 
 [sub_resource type="Texture2D" id="Texture2D_nap66"]
 resource_local_to_scene = false
@@ -16,10 +16,10 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("3_ppkn1")
+scene = ExtResource("4_0ntgt")
 render_method = 0
 transparent_bg = true
-scene_position = Vector3(0.005, -0.04, 0)
+scene_position = Vector3(0, 0.055, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
@@ -39,10 +39,10 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("4_shoq3")
+scene = ExtResource("6_7omst")
 render_method = 1
 transparent_bg = true
-scene_position = Vector3(0, 0, 0)
+scene_position = Vector3(0, 0.065, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.425
@@ -62,13 +62,13 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("8_nj1ew")
+scene = ExtResource("7_h7q65")
 render_method = 1
 transparent_bg = true
-scene_position = Vector3(0, 0, 0)
+scene_position = Vector3(0, 0.085, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
-camera_distance = 1.27
+camera_distance = 1.185
 camera_position = Vector3(0, 0.31, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
 light_color = Color(1, 1, 1, 1)
@@ -85,10 +85,10 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("9_2rkun")
+scene = ExtResource("8_p72rv")
 render_method = 0
 transparent_bg = true
-scene_position = Vector3(0, 0, 0)
+scene_position = Vector3(0, -0.01, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 1.245
@@ -108,10 +108,10 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("1_otq1i")
+scene = ExtResource("9_n7f3y")
 render_method = 1
 transparent_bg = true
-scene_position = Vector3(0, 0, 0)
+scene_position = Vector3(0, 0.055, 0)
 scene_rotation = Vector3(0, 0.71384, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
@@ -147,11 +147,11 @@ resource_name = ""
 script = ExtResource("1_oi2nq")
 width = 96
 height = 96
-scene = ExtResource("1_otq1i")
+scene = ExtResource("9_n7f3y")
 render_method = 1
 world_3d = SubResource("World3D_5xixx")
 transparent_bg = true
-scene_position = Vector3(0, 0, 0)
+scene_position = Vector3(0, 0.055, 0)
 scene_rotation = Vector3(0, 0, 0)
 scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
@@ -271,7 +271,7 @@ text = "Randomize Settings"
 
 [node name="ScenePivot" type="Node3D" parent="."]
 
-[node name="Tree1" parent="ScenePivot" instance=ExtResource("1_otq1i")]
+[node name="tree_blocks2" parent="ScenePivot" instance=ExtResource("9_n7f3y")]
 
 [node name="CSGBox3D" type="CSGBox3D" parent="ScenePivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0466338, 0)

@@ -1,6 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://cf57f4o02mxf8"]
-
-[resource]
-resource_name = "dirtDark"
-albedo_color = Color(0.859591, 0.671036, 0.556948, 1)
-metallic = 1.0

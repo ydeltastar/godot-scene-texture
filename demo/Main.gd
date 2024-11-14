@@ -6,7 +6,7 @@ extends Node3D
 
 var _current_scene:PackedScene
 
-@onready var _instance:Node3D = $ScenePivot/Tree1
+@onready var _instance:Node3D = $ScenePivot/tree_blocks2
 @onready var button_grid: GridContainer = $Control/CenterContainer/VBoxContainer/GridContainer
 
 

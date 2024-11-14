@@ -1,6 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://bwfbo56cc3tk5"]
-
-[resource]
-resource_name = "colorPurple"
-albedo_color = Color(0.811515, 0.759381, 1, 1)
-metallic = 1.0
