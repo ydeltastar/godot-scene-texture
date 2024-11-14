@@ -14,8 +14,9 @@ Create a new `SceneTexture` resource anywhere that takes a `Texture2D`, like a b
 ## Features
 
 - Use anywhere that takes a regular texture like buttons and materials. It is just an extension of `Texture2D`.
-- Real-time bake preview in the inspector.
-- Supporting `Environment` features like global illumination.
+- Real-time preview in the inspector and editor.
+- Can bake at runtime so it doesn't need to store pixel data in the resource file (great for source control).
+- Supports advanced rendering features like global illumination by defining a custom `Environment`.
 
 ## License
 

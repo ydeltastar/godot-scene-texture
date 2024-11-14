@@ -135,11 +135,12 @@ func _create_scene():
 func render():
 	var render_frames = 1
 	var world = find_world_3d()
-	if world and world.environment and world.environment.sdfgi_enabled:
+	var has_gi = world and world.environment and world.environment.sdfgi_enabled
+	if has_gi:
 		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
 		var v = [5, 10, 15, 20, 25, 30]
 		render_frames = v[converge]
-		
+	
 	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
 
 

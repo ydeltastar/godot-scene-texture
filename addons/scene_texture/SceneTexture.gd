@@ -147,7 +147,19 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [br][br]
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 @export var render_auto_bake = true
+## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
+@export var render_store_bake = false:
+	set(value):
+		render_store_bake = value
+		if render_store_bake:
+			_data = RenderingServer.texture_2d_get(get_rid())
+		else:
+			_data = null
+		notify_property_list_changed()
 #endregion
+
+# Used to store image data when render_store_bake is true.
+@export_storage var _data:Image
 
 var _texture:RID
 var _update_pending = false
@@ -158,6 +170,7 @@ var _render:SceneRender
 # Default texture when the render is not ready.
 static var _placeholder_texture:ImageTexture
 
+
 #region Engine Callbacks
 static func _static_init() -> void:
 	var image = Image.create_empty(1, 1, true, Image.FORMAT_RGBA8)
@@ -165,7 +178,7 @@ static func _static_init() -> void:
 	
 
 func _init() -> void:
-	_queue_update.call_deferred()
+	_setup.call_deferred()
 
 
 func _get_rid() -> RID:
@@ -188,6 +201,9 @@ func _validate_property(property: Dictionary):
 	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
 		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
+	if property.name == "_data":
+		if not render_store_bake:
+			property.usage = PROPERTY_USAGE_NONE
 #endregion
 
 
@@ -229,7 +245,24 @@ func is_baking():
 
 
 #region Private Functions
+var _initialized = false
+func _setup():
+	if _data:
+		_set_texture_image(_data)
+	
+	_initialized = true
+	
+	if not render_store_bake:
+		_queue_update()
+
+
 func _queue_update():
+	if not _initialized:
+		return
+	
+	if not render_store_bake:
+		_data = null
+	
 	emit_changed()
 	if render_auto_bake == false:
 		return
@@ -285,6 +318,11 @@ func _set_texture_image(image:Image):
 	else:
 		_texture = RenderingServer.texture_2d_create(image)
 	RenderingServer.texture_set_path(_texture, resource_path)
+	
+	if render_store_bake:
+		_data = image
+	else:
+		_data = null
 	emit_changed()
 
 
