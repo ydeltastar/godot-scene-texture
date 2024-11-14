@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bqgi8181e124v"]
 
 [ext_resource type="Script" path="res://addons/scene_texture/editor/SceneTexturePreview.gd" id="1_m1d30"]
-[ext_resource type="Script" uid="uid://nlcmj2q5g38a" path="res://addons/scene_texture/editor/TextureView.gd" id="2_conow"]
+[ext_resource type="Script" path="res://addons/scene_texture/editor/TextureView.gd" id="2_conow"]
 
 [node name="SceneTexturePreview" type="HBoxContainer"]
 clip_contents = true
@@ -24,7 +24,7 @@ theme_override_font_sizes/font_size = 12
 text = "Preview"
 horizontal_alignment = 1
 
-[node name="TextureRect" type="Control" parent="VBoxContainer"]
+[node name="TextureView" type="Control" parent="VBoxContainer"]
 z_index = 1
 clip_contents = true
 layout_mode = 2
@@ -53,7 +53,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 stretch_mode = 2
 
-[node name="SceneTextureRect" type="Control" parent="VBoxContainer_2"]
+[node name="SceneTextureView" type="Control" parent="VBoxContainer_2"]
 z_index = 1
 clip_contents = true
 layout_mode = 2

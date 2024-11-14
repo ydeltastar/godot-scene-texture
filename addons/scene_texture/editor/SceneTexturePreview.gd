@@ -7,8 +7,8 @@ const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
-@onready var subviewport_view = $VBoxContainer/TextureRect
-@onready var scene_texture_view = $VBoxContainer_2/SceneTextureRect
+@onready var subviewport_view = $VBoxContainer/TextureView
+@onready var scene_texture_view = $VBoxContainer_2/SceneTextureView
 @onready var loading: TextureRect = $VBoxContainer_2/HBoxContainer/Loading
 
 var _scene_texture:SceneTexture:
@@ -68,7 +68,8 @@ func update():
 
 
 func _process(delta: float) -> void:
-	loading.texture.pause = _is_paused()
+	if loading.texture:
+		loading.texture.pause = _is_paused()
 
 
 func _setup() -> void:
