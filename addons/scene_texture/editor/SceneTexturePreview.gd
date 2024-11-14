@@ -5,7 +5,6 @@ extends HBoxContainer
 const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
-const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
 @onready var subviewport_view = $VBoxContainer/TextureView
 @onready var scene_texture_view = $VBoxContainer_2/SceneTextureView
@@ -86,14 +85,7 @@ func _setup() -> void:
 
 
 func _create_render() -> SceneRender:
-	var render
-	match _scene_texture.render_method:
-		SceneTexture.RenderMethod.Default:
-			render = SCENE_RENDER_CUSTOM.instantiate()
-		
-		SceneTexture.RenderMethod.Internal:
-			render = SCENE_RENDER.instantiate()
-	return render
+	return SCENE_RENDER.instantiate()
 
 
 func _exit_tree() -> void:

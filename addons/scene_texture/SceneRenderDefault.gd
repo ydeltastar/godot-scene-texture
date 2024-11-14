@@ -1,20 +1,19 @@
 @tool
 extends "res://addons/scene_texture/SceneRender.gd"
-## Render a [SceneTexture] using the engine internal render.
 
 
 # --- Engine Callbacks --- #
 
 
 # --- Public Functions --- #
-func render(iterations: int):
+func render():
 	await get_tree().process_frame
 	
 	render_target_update_mode = UpdateMode.UPDATE_ALWAYS
-	_render_subviewport(iterations)
+	_render_subviewport_custom()
 
 
-func _render_subviewport(iterations:int = 1, disable_main = false):
+func _render_subviewport_custom(iterations:int = 1, disable_main = false):
 	RenderingServer.viewport_set_active(get_viewport_rid(), false)
 	
 	var scenario = RenderingServer.scenario_create()

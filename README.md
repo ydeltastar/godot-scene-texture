@@ -15,7 +15,8 @@ Create a new `SceneTexture` resource anywhere that takes a `Texture2D`, like a b
 
 - Use anywhere that takes a regular texture like buttons and materials. It is just an extension of `Texture2D`.
 - Real-time bake preview in the inspector.
-- Use a simple default render for fast baking or Godot's built-in render supporting `Environment` features like global illumination.
+- Supporting `Environment` features like global illumination.
+
 ## License
 
 Create by ydeltastar - MIT License.  

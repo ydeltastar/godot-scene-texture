@@ -69,7 +69,7 @@ func update_from_texture(texture:SceneTexture):
 	scene_position = texture.scene_position
 	scene_rotation = texture.scene_rotation
 	scene_scale = texture.scene_scale
-	transparent_bg = texture.transparent_bg
+	transparent_bg = texture.render_transparent_bg
 	
 	main_light.light_color = texture.light_color
 	main_light.light_energy = texture.light_energy
@@ -77,7 +77,7 @@ func update_from_texture(texture:SceneTexture):
 	main_light.shadow_enabled = texture.light_shadow
 	main_light.global_rotation = texture.light_rotation
 	
-	var world: World3D = texture.world_3d
+	var world: World3D = texture.render_world_3d
 	if not is_instance_valid(world):
 		var default_env = ProjectSettings.get_setting("scene_texture/default_world_3d")
 		if default_env:
@@ -132,9 +132,44 @@ func _create_scene():
 		scene_parent.add_child(node)
 
 
-## Implemented in the child classes
-func render(iterations: int):
-	pass
+func render():
+	var render_frames = 1
+	var world = find_world_3d()
+	if world and world.environment and world.environment.sdfgi_enabled:
+		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
+		var v = [5, 10, 15, 20, 25, 30]
+		render_frames = v[converge]
+		
+	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
+
+
+# --- Private Functions --- #
+static var _main_viewport_active = true
+func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
+	# Disable main viewport so it doesn't redrawn
+	var scene_tree = Engine.get_main_loop() as SceneTree
+	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
+	var root_viewport = scene_tree.root.get_viewport().get_viewport_rid()
+	if disable_main:
+		RenderingServer.viewport_set_active(root_viewport, false)
+		_main_viewport_active = false
+	
+	for i in iterations:
+		await RenderingServer.frame_pre_draw
+		RenderingServer.viewport_set_update_mode(render.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_ONCE)
+		RenderingServer.force_draw(true, 1.0 / iterations)
+		await RenderingServer.frame_post_draw
+	
+	if not _main_viewport_active:
+		# Enable main viewport again
+		var v = scene_tree.root.get_viewport_rid()
+		RenderingServer.viewport_set_active(v, true)
+		_main_viewport_active = true
+		await RenderingServer.frame_post_draw # image data doesn't updates correctly without this..
+
+	_render = get_texture().get_image()
+	# Set final texture
+	render_finished.emit()
 
 
 func get_render() -> Image:

@@ -16,7 +16,6 @@ enum RenderMethod {
 const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
-const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
 #region Export Variables
 @export_group("Texture")
@@ -41,57 +40,7 @@ const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_def
 			return
 			
 		scene = value
-		_queue_update()
-
-@export var render_method = RenderMethod.Default:
-	set(value):
-		if render_method == value:
-			return
-		
-		render_method = value
 		notify_property_list_changed()
-		_queue_update()
-
-## Define custom environment settings for the internal render. The render will use the default [World3D] if this is not provided.
-## [br][br]
-## [b]Note:[/b] that the bake doesn't automatically updates when properties of the [Environment] or [CameraAttributes] change.
-## You have to call [method bake].
-@export var world_3d:World3D:
-	set(value):
-		if world_3d == value:
-			return
-
-		if world_3d:
-			world_3d.changed.disconnect(_queue_update)
-			# NOTE: These have no effect since the Environment and CameraAttributes doesn't emit changed..
-			if world_3d.environment:
-				world_3d.environment.changed.disconnect(_queue_update)
-			if world_3d.camera_attributes:
-				world_3d.camera_attributes.changed.disconnect(_queue_update)
-		
-		world_3d = value
-		
-		if world_3d:
-			world_3d.changed.connect(_queue_update)
-			# NOTE: These have no effect since the Environment and CameraAttributes doesn't emit changed..
-			if world_3d.environment:
-				world_3d.environment.changed.connect(_queue_update)
-			if world_3d.camera_attributes:
-				world_3d.camera_attributes.changed.connect(_queue_update)
-
-		_queue_update()
-
-## Render with transparent background.
-@export var transparent_bg = true:
-	set(value):
-		if transparent_bg == value:
-			return
-		
-		# FIXME: There is an outline around objects in transparent mode. Maybe feather postprocess the image to remove it.
-		# Premultiplied alpha issue? https://github.com/godotengine/godot/issues/17574#issuecomment-1200328756
-		# https://github.com/godotengine/godot/issues/78004
-		# https://github.com/godotengine/godot/issues/17574
-		transparent_bg = value
 		_queue_update()
 
 @export_group("Scene", "scene_")
@@ -152,13 +101,52 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 		_queue_update()
 
 @export_group("Render", "render_")
+## Define custom environment settings for the internal render. The render will use the default [World3D] if this is not provided.
+## [br][br]
+## [b]Note:[/b] that the bake doesn't automatically updates when properties of the [Environment] or [CameraAttributes] change.
+## You have to call [method bake].
+@export var render_world_3d:World3D:
+	set(value):
+		if render_world_3d == value:
+			return
+
+		if render_world_3d:
+			render_world_3d.changed.disconnect(_queue_update)
+			# NOTE: These have no effect since the Environment and CameraAttributes doesn't emit changed..
+			if render_world_3d.environment:
+				render_world_3d.environment.changed.disconnect(_queue_update)
+			if render_world_3d.camera_attributes:
+				render_world_3d.camera_attributes.changed.disconnect(_queue_update)
+		
+		render_world_3d = value
+		
+		if render_world_3d:
+			render_world_3d.changed.connect(_queue_update)
+			# NOTE: These have no effect since the Environment and CameraAttributes doesn't emit changed..
+			if render_world_3d.environment:
+				render_world_3d.environment.changed.connect(_queue_update)
+			if render_world_3d.camera_attributes:
+				render_world_3d.camera_attributes.changed.connect(_queue_update)
+
+		_queue_update()
+
+## Render with transparent background.
+@export var render_transparent_bg = true:
+	set(value):
+		if render_transparent_bg == value:
+			return
+		
+		# FIXME: There is an outline around objects in transparent mode. Maybe feather postprocess the image to remove it.
+		# Premultiplied alpha issue? https://github.com/godotengine/godot/issues/17574#issuecomment-1200328756
+		# https://github.com/godotengine/godot/issues/78004
+		# https://github.com/godotengine/godot/issues/17574
+		render_transparent_bg = value
+		_queue_update()
+
 ## Automatically request bake when settings change.
 ## [br][br]
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 @export var render_auto_bake = true
-## Use [ProjectSettings] [b]rendering/global_illumination/sdfgi/frames_to_converge[/b] to render multiple
-## times so [b]SDFGI[/b] stabilizes. It can slow down rendering significantly; use only when [b]SDFGI[/b] is enabled.
-@export var render_use_frames_to_converge = false
 #endregion
 
 var _texture:RID
@@ -197,8 +185,8 @@ func _get_height() -> int:
 
 
 func _validate_property(property: Dictionary):
-	if property.name == "world_3d":
-		if render_method != RenderMethod.Internal:
+	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
+		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
 #endregion
 
@@ -226,14 +214,8 @@ func bake():
 	scene_tree.root.add_child(_render, false, Node.INTERNAL_MODE_BACK)
 	_render.update_from_texture(self)
 
-	var render_frames = 1
-	if render_use_frames_to_converge:
-		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
-		var v = [5, 10, 15, 20, 25, 30]
-		render_frames = v[converge]
-	
 	_render.render_finished.connect(_on_render_finished)
-	_image = await _render.render(render_frames)
+	_image = await _render.render()
 
 
 func _on_render_finished():
@@ -313,10 +295,5 @@ func _notification(what: int) -> void:
 
 
 func _create_render():
-	match render_method:
-		RenderMethod.Default:
-			_render = SCENE_RENDER_CUSTOM.instantiate()
-		
-		RenderMethod.Internal:
-			_render = SCENE_RENDER.instantiate()
+	_render = SCENE_RENDER.instantiate()
 #endregion
