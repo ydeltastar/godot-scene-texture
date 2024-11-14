@@ -18,6 +18,7 @@ const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
+#region Export Variables
 @export_group("Texture")
 ## Texture bake width.
 @export var width = 64:
@@ -158,36 +159,41 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## Use [ProjectSettings] [b]rendering/global_illumination/sdfgi/frames_to_converge[/b] to render multiple
 ## times so [b]SDFGI[/b] stabilizes. It can slow down rendering significantly; use only when [b]SDFGI[/b] is enabled.
 @export var render_use_frames_to_converge = false
+#endregion
 
 var _texture:RID
 var _update_pending = false
 var _is_baking = false
 var _timer:Timer
 var _render:SceneRender
-var _texture_width:int = 0
-var _texture_height:int = 0
 
+# Default texture when the render is not ready.
+static var _placeholder_texture:ImageTexture
 
 #region Engine Callbacks
+static func _static_init() -> void:
+	var image = Image.create_empty(1, 1, true, Image.FORMAT_RGBA8)
+	_placeholder_texture = ImageTexture.create_from_image(image)
+	
+
 func _init() -> void:
-	_texture_width = 0
-	_texture_height = 0
 	_queue_update.call_deferred()
 
 
 func _get_rid() -> RID:
 	if not _texture.is_valid():
-		_texture = RenderingServer.texture_2d_placeholder_create()
+		# TODO: Use a transparent texture instead
+		_texture = _placeholder_texture.get_rid()
 	
 	return _texture
 
 
 func _get_width() -> int:
-	return _texture_width
+	return width
 
 
 func _get_height() -> int:
-	return _texture_height
+	return height
 
 
 func _validate_property(property: Dictionary):
@@ -288,9 +294,10 @@ func _update():
 
 
 func _set_texture_image(image:Image):
-	_texture_width = image.get_width()
-	_texture_height = image.get_height()
-	if _texture.is_valid():
+	assert(image.get_width() == width)
+	assert(image.get_height() == height)
+	
+	if _texture.is_valid() and _texture != _placeholder_texture.get_rid():
 		var new_texture = RenderingServer.texture_2d_create(image)
 		RenderingServer.texture_replace(_texture, new_texture)
 	else:
