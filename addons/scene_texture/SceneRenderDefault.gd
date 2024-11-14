@@ -7,7 +7,7 @@ extends "res://addons/scene_texture/SceneRender.gd"
 
 
 # --- Public Functions --- #
-func render(iterations: int):	
+func render(iterations: int):
 	await get_tree().process_frame
 	
 	render_target_update_mode = UpdateMode.UPDATE_ALWAYS
@@ -28,16 +28,14 @@ func _render_subviewport(iterations:int = 1, disable_main = false):
 	RenderingServer.viewport_set_screen_space_aa(viewport, RenderingServer.VIEWPORT_SCREEN_SPACE_AA_FXAA)
 	var viewport_texture = RenderingServer.viewport_get_texture(viewport)
 	
-	var instances = []
 	for node in get_all_children(self):
 		if node is VisualInstance3D:
 			var base = node.get_instance()
 			if base.is_valid():
 				RenderingServer.instance_set_scenario(base, scenario)
-		elif node is Camera3D: #and node == get_viewport().get_camera_3d():
+		elif node is Camera3D and node == get_viewport().get_camera_3d():
 			var camera = node.get_camera_rid()
 			RenderingServer.viewport_attach_camera(viewport, camera)
-			instances.append(camera)
 	
 	await RenderingServer.frame_pre_draw
 	RenderingServer.force_draw(false, 1.0 / iterations)
