@@ -1,5 +1,5 @@
 @tool
-extends SceneRender
+extends "res://addons/scene_texture/SceneRender.gd"
 ## Render a [SceneTexture] using the engine internal render.
 
 

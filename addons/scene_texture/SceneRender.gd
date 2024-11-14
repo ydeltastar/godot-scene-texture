@@ -1,5 +1,5 @@
 @tool
-class_name SceneRender extends SubViewport
+extends SubViewport
 ## Base class for scene setup for rendering a [SceneTexture].
 ## Should be an oneshot object which is freed after rendering is finished.
 

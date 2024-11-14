@@ -13,6 +13,8 @@ enum RenderMethod {
 	Internal
 }
 
+const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
+
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 const SCENE_RENDER_CUSTOM = preload("res://addons/scene_texture/scene_render_default.tscn")
 
