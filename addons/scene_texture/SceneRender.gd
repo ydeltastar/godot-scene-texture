@@ -123,14 +123,22 @@ func _create_scene():
 	
 	if scene:
 		var node = scene.instantiate()
-		for child in node.get_children():
+		for child in get_all_children(node):
 			child.set_script(null)
-			if child is not Node3D:
-				child.queue_free()
-			
+			child.process_mode = scene_process_mode
+	
 		node.process_mode = scene_process_mode
 		scene_parent.add_child(node)
 
+
+static func get_all_children(node:Node) -> Array[Node]:
+	var children:Array[Node] = []
+
+	for child in node.get_children():
+		children.append(child)
+		children.append_array(get_all_children(child))
+
+	return children
 
 func render():
 	var render_frames = 1
