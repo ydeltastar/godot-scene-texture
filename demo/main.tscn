@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dbqiqfqf3pytg"]
+[gd_scene load_steps=22 format=3 uid="uid://dbqiqfqf3pytg"]
 
 [ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
@@ -70,7 +70,7 @@ camera_distance = 2.425
 camera_position = Vector3(0, 0.79, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
 light_color = Color(1, 1, 1, 1)
-light_energy = 1.0
+light_energy = 2.5
 light_angular_distance = 0.0
 light_shadow = false
 light_rotation = Vector3(-1.0472, 1.0472, 0)
@@ -92,7 +92,7 @@ camera_distance = 1.185
 camera_position = Vector3(0, 0.31, 0)
 camera_rotation = Vector3(-0.523599, -0.436332, 0)
 light_color = Color(1, 1, 1, 1)
-light_energy = 1.0
+light_energy = 2.5
 light_angular_distance = 0.0
 light_shadow = false
 light_rotation = Vector3(-1.0472, 1.0472, 0)
@@ -135,17 +135,24 @@ scene_scale = Vector3(1, 1, 1)
 camera_distance = 2.28
 camera_position = Vector3(0, 0.72, 0)
 camera_rotation = Vector3(-0.523599, 0.277507, 0)
-light_color = Color(1, 1, 1, 1)
-light_energy = 1.0
+light_color = Color(0.806184, 0.710245, 0.62168, 1)
+light_energy = 3.94
 light_angular_distance = 0.0
 light_shadow = false
-light_rotation = Vector3(-1.0472, 1.0472, 0)
+light_rotation = Vector3(0.143117, 2.22529, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_abv04"]
 albedo_color = Color(0.66612, 0.717192, 0.708549, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ndcfo"]
+albedo_color = Color(0.336608, 0.336608, 0.336608, 1)
+metallic = 0.69
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_moy8s"]
+albedo_color = Color(0.613818, 0.509804, 0.49093, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miisf"]
 transparency = 1
@@ -247,8 +254,7 @@ vertical_icon_alignment = 0
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
-text = "Tree
-Default Env"
+text = "Tree"
 icon = SubResource("Texture2D_2tgy0")
 autowrap_mode = 2
 icon_alignment = 1
@@ -278,6 +284,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101908, 0)
 radius = 0.9
 height = 0.093
 sides = 32
+material = SubResource("StandardMaterial3D_ndcfo")
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(0.970435, 0, -0.241363, 0, 1, 0, 0.241363, 0, 0.970435, 0.557, 0, 0.532)
@@ -290,6 +297,7 @@ height = 0.369994
 [node name="CSGBox3D" type="CSGBox3D" parent="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 0.339434, 0.0118795)
 size = Vector3(0.28, 0.28, 0.017)
+material = SubResource("StandardMaterial3D_moy8s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D/CSGBox3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.14907e-10, 0.00922859)
