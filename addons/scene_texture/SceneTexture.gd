@@ -170,7 +170,7 @@ var _render:SceneRender
 
 #region Engine Callbacks
 func _init() -> void:
-	_setup.call_deferred()
+	_initialize.call_deferred()
 
 
 func _get_rid() -> RID:
@@ -239,7 +239,7 @@ func is_baking():
 
 #region Private Functions
 var _initialized = false
-func _setup():
+func _initialize():
 	if _data:
 		_set_texture_image(_data)
 	
