@@ -2,36 +2,25 @@
 class_name SceneTexture extends Texture2D
 ## A texture that renders and bakes a view of a 3D [PackedScene]. It can be used to generate icons and
 ## thumbnails directly from a scene and use it anywhere that accepts a [Texture2D].
-## TODO: Maybe implement a DrawableTexture like https://github.com/godotengine/godot-proposals/issues/7379
-## with this method https://github.com/godotengine/godot-demo-projects/pull/938
 
-## Emitted when the texture baking finished.
+## Emitted when the texture's bake process finished.
 signal bake_finished
 
-enum RenderMethod {
-	Default,
-	Internal
-}
+const _SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
-const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
-
-const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
+const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
 #region Export Variables
-@export_group("Texture")
-## Texture bake width.
+## Texture's width.
 @export var width = 64:
 	set(value):
 		width = clamp(value, 1, 16384)
 		_queue_update()
-## Texture bake height.
+## Texture's height.
 @export var height = 64:
 	set(value):
 		height = clamp(value, 1, 16384)
 		_queue_update()
-
-## Process mode of the scene.
-#@export var scene_process_mode:ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
 
 ## Scene to render.
 @export var scene:PackedScene:
@@ -165,7 +154,7 @@ var _texture:RID
 var _update_pending = false
 var _is_baking = false
 var _timer:Timer
-var _render:SceneRender
+var _render:_SceneRender
 
 
 #region Engine Callbacks
@@ -175,8 +164,7 @@ func _init() -> void:
 
 func _get_rid() -> RID:
 	if not _texture.is_valid():
-		# TODO: Use a transparent texture instead
-		var image = Image.create_empty(width, height, true, Image.FORMAT_RGBA8)
+		var image = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
 		_set_texture_image(image)
 	
 	return _texture
@@ -201,8 +189,8 @@ func _validate_property(property: Dictionary):
 
 
 #region Public Functions
-## Render scene and update the texture's image.
 var _image
+## Render scene and update the texture's image.
 func bake():
 	if not scene or _is_baking:
 		return
@@ -227,11 +215,7 @@ func bake():
 	_image = await _render.render()
 
 
-func _on_render_finished():
-	_set_texture_image(_render.get_render())
-	_is_baking = false
-
-
+## Returns [b]true[/b] if a bake is in progress.
 func is_baking():
 	return _is_baking or _update_pending
 #endregion
@@ -262,8 +246,6 @@ func _queue_update():
 
 	_update_pending = true
 	
-	# Duration of rendering before baking. Some rendering features are temporal-based and might need
-	# time to settle for better visual quality.
 	var bake_delay:float = ProjectSettings.get_setting("scene_texture/auto_bake_delay", 0.25)
 	if bake_delay > 0.0:
 		if is_instance_valid(_timer):
@@ -326,5 +308,10 @@ func _notification(what: int) -> void:
 
 
 func _create_render():
-	_render = SCENE_RENDER.instantiate()
+	_render = _SCENE_RENDER.instantiate()
+
+
+func _on_render_finished():
+	_set_texture_image(_render.get_render())
+	_is_baking = false
 #endregion

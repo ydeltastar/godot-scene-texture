@@ -1,6 +1,6 @@
 @tool
 extends Control
-## Draws a texture with a checkboard background preserving the texture size if less than the control's size.
+## Draws a texture with a checkboard background keeping the texture size if less than the control's size.
 
 
 @export var texture:Texture2D:

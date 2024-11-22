@@ -1,6 +1,6 @@
 @tool
 extends SubViewport
-## Base class for scene setup for rendering a [SceneTexture].
+## Renders a scene.
 ## Should be an oneshot object which is freed after rendering is finished.
 
 signal render_finished
@@ -93,12 +93,23 @@ func update_from_texture(texture:SceneTexture):
 	_update()
 
 
-func _process(delta: float) -> void:
-	#_scene_parent.basis = _scene_parent.basis.rotated(Vector3.UP, deg_to_rad(35 * delta))
+func render():
+	var render_frames = 1
+	var world = find_world_3d()
 	
-	var canvas = get_parent() as CanvasItem
-	if canvas:
-		canvas.queue_redraw() # Required for the rendering to update during the delay
+	# Some rendering features like GI are temporal-based and might need time to settle for better visual quality.
+	# Use settings to define how many frames to iterate the render for temporal features.
+	var has_gi = world and world.environment and world.environment.sdfgi_enabled
+	if has_gi:
+		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
+		var v = [5, 10, 15, 20, 25, 30]
+		render_frames = v[converge]
+	
+	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
+
+
+func get_render() -> Image:
+	return _render
 
 
 func _update():
@@ -123,33 +134,12 @@ func _create_scene():
 	
 	if scene:
 		var node = scene.instantiate()
-		for child in get_all_children(node):
+		for child in _get_all_children(node):
 			child.set_script(null)
 			child.process_mode = scene_process_mode
 	
 		node.process_mode = scene_process_mode
 		scene_parent.add_child(node)
-
-
-static func get_all_children(node:Node) -> Array[Node]:
-	var children:Array[Node] = []
-
-	for child in node.get_children():
-		children.append(child)
-		children.append_array(get_all_children(child))
-
-	return children
-
-func render():
-	var render_frames = 1
-	var world = find_world_3d()
-	var has_gi = world and world.environment and world.environment.sdfgi_enabled
-	if has_gi:
-		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
-		var v = [5, 10, 15, 20, 25, 30]
-		render_frames = v[converge]
-	
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
 
 
 # --- Private Functions --- #
@@ -181,8 +171,14 @@ func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main =
 	render_finished.emit()
 
 
-func get_render() -> Image:
-	return _render
+static func _get_all_children(node:Node) -> Array[Node]:
+	var children:Array[Node] = []
+
+	for child in node.get_children():
+		children.append(child)
+		children.append_array(_get_all_children(child))
+
+	return children
 
 
 func _get_scene_node() -> Node3D:
