@@ -1,0 +1,26 @@
+[gd_resource type="Texture2D" script_class="SceneTexture" load_steps=3 format=3 uid="uid://0hy8ggdx1ffh"]
+
+[ext_resource type="PackedScene" uid="uid://b8dhifickdrll" path="res://demo/assets/models/tree_blocks_fall.glb" id="1_aiwoi"]
+[ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="2_gbb2e"]
+
+[resource]
+resource_local_to_scene = false
+resource_name = ""
+script = ExtResource("2_gbb2e")
+width = 96
+height = 96
+scene = ExtResource("1_aiwoi")
+scene_position = Vector3(0, 0.055, 0)
+scene_rotation = Vector3(0, 0, 0)
+scene_scale = Vector3(1, 1, 1)
+camera_distance = 2.28
+camera_position = Vector3(0, 0.72, 0)
+camera_rotation = Vector3(-0.698132, -0.436332, 0)
+light_color = Color(1, 1, 1, 1)
+light_energy = 2.5
+light_angular_distance = 0.0
+light_shadow = false
+light_rotation = Vector3(-1.0472, 1.0472, 0)
+render_transparent_bg = true
+render_auto_bake = true
+render_store_bake = false

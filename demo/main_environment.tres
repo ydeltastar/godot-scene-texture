@@ -14,7 +14,6 @@ sky_rotation = Vector3(0, -5.08763, 0)
 ambient_light_source = 3
 ambient_light_color = Color(0.53842, 0.635145, 0.853198, 1)
 tonemap_mode = 3
-ssao_enabled = true
 ssao_power = 2.35375
 ssao_detail = 3.57
 ssao_sharpness = 0.26

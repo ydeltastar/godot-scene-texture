@@ -1,37 +1,16 @@
 [gd_scene load_steps=22 format=3 uid="uid://dbqiqfqf3pytg"]
 
-[ext_resource type="Script" uid="uid://6w02pi5m2p80" path="res://demo/Main.gd" id="1_j883o"]
+[ext_resource type="Script" path="res://demo/Main.gd" id="1_j883o"]
 [ext_resource type="Script" path="res://addons/scene_texture/SceneTexture.gd" id="1_oi2nq"]
 [ext_resource type="Environment" uid="uid://d22ljvvlfrf5x" path="res://demo/main_environment.tres" id="2_i30cj"]
 [ext_resource type="ButtonGroup" uid="uid://bdg4j4eddan60" path="res://demo/button_group.tres" id="2_w4sxa"]
 [ext_resource type="PackedScene" uid="uid://b8dhifickdrll" path="res://demo/assets/models/tree_blocks_fall.glb" id="4_0ntgt"]
+[ext_resource type="Texture2D" uid="uid://0hy8ggdx1ffh" path="res://demo/tree_fall_texture.tres" id="4_l7jv1"]
 [ext_resource type="PackedScene" uid="uid://dm5w3m8w5j42p" path="res://demo/assets/models/tree_detailed.glb" id="6_7omst"]
-[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://demo/default_scene_texture_world3d.tres" id="6_avdnd"]
+[ext_resource type="World3D" uid="uid://bra76mpxojd28" path="res://demo/custom_scene_texture_world3d.tres" id="6_avdnd"]
 [ext_resource type="PackedScene" uid="uid://c8mdsyxmrlvpc" path="res://demo/assets/models/cactus_short.glb" id="7_h7q65"]
 [ext_resource type="PackedScene" uid="uid://ds06y47egew6" path="res://demo/assets/models/bed.glb" id="8_p72rv"]
 [ext_resource type="PackedScene" uid="uid://dyva5tkj2xmm0" path="res://demo/assets/models/tree_blocks.glb" id="9_n7f3y"]
-
-[sub_resource type="Texture2D" id="Texture2D_jbx0s"]
-resource_local_to_scene = false
-resource_name = ""
-script = ExtResource("1_oi2nq")
-width = 96
-height = 96
-scene = ExtResource("4_0ntgt")
-scene_position = Vector3(0, 0.055, 0)
-scene_rotation = Vector3(0, 0, 0)
-scene_scale = Vector3(1, 1, 1)
-camera_distance = 2.28
-camera_position = Vector3(0, 0.72, 0)
-camera_rotation = Vector3(-0.698132, -0.436332, 0)
-light_color = Color(1, 1, 1, 1)
-light_energy = 2.5
-light_angular_distance = 0.0
-light_shadow = false
-light_rotation = Vector3(-1.0472, 1.0472, 0)
-render_transparent_bg = true
-render_auto_bake = true
-render_store_bake = false
 
 [sub_resource type="Texture2D" id="Texture2D_d7uob"]
 resource_local_to_scene = false
@@ -152,10 +131,11 @@ albedo_color = Color(0.336608, 0.336608, 0.336608, 1)
 metallic = 0.69
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_moy8s"]
-albedo_color = Color(0.613818, 0.509804, 0.49093, 1)
+albedo_color = Color(0.491292, 0.316364, 0.316923, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miisf"]
 transparency = 1
+albedo_texture = ExtResource("4_l7jv1")
 
 [sub_resource type="QuadMesh" id="QuadMesh_ednu6"]
 material = SubResource("StandardMaterial3D_miisf")
@@ -178,16 +158,7 @@ directional_shadow_blend_splits = true
 directional_shadow_fade_start = 0.316
 directional_shadow_max_distance = 8.0
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CenterContainer" type="CenterContainer" parent="Control"]
-layout_mode = 1
+[node name="CenterContainer" type="CenterContainer" parent="."]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -197,23 +168,23 @@ offset_right = 370.0
 offset_bottom = 258.0
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
 layout_mode = 2
 
-[node name="GridContainer" type="GridContainer" parent="Control/CenterContainer/VBoxContainer"]
+[node name="GridContainer" type="GridContainer" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 columns = 3
 
-[node name="Button2" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
 text = "Tree Fall"
-icon = SubResource("Texture2D_jbx0s")
+icon = ExtResource("4_l7jv1")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button9" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button2" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -223,7 +194,7 @@ icon = SubResource("Texture2D_d7uob")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button3" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button3" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -232,7 +203,7 @@ icon = SubResource("Texture2D_0431j")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button4" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button4" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -241,7 +212,7 @@ icon = SubResource("Texture2D_2ecfp")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button5" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button5" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -250,7 +221,7 @@ icon = SubResource("Texture2D_fqi1k")
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button6" type="Button" parent="Control/CenterContainer/VBoxContainer/GridContainer"]
+[node name="Button6" type="Button" parent="CenterContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 toggle_mode = true
 button_group = ExtResource("2_w4sxa")
@@ -260,7 +231,7 @@ autowrap_mode = 2
 icon_alignment = 1
 vertical_icon_alignment = 0
 
-[node name="Button" type="Button" parent="Control/CenterContainer/VBoxContainer"]
+[node name="Randomize" type="Button" parent="CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Randomize Settings"
 
@@ -273,9 +244,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0466338, 0)
 size = Vector3(0.826, 0.093, 0.826)
 material = SubResource("StandardMaterial3D_abv04")
 
-[node name="Node3D2" type="Node3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="Node3D2"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
 transform = Transform3D(0.973992, -4.34439e-08, 0.226584, -0.0586441, 0.965926, 0.252088, -0.218863, -0.258819, 0.940804, -0.0226147, 0.958992, 1.9568)
 far = 8.0
 
@@ -303,4 +274,4 @@ material = SubResource("StandardMaterial3D_moy8s")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.14907e-10, 0.00922859)
 mesh = SubResource("QuadMesh_ednu6")
 
-[connection signal="pressed" from="Control/CenterContainer/VBoxContainer/Button" to="." method="_on_rebake_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Randomize" to="." method="_on_rebake_pressed"]
