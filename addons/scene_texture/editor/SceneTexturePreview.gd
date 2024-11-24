@@ -6,7 +6,6 @@ const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
-@onready var subviewport_view = $VBoxContainer/TextureView
 @onready var scene_texture_view = $VBoxContainer_2/SceneTextureView
 @onready var loading: TextureRect = $VBoxContainer_2/HBoxContainer/Loading
 
@@ -45,9 +44,6 @@ func _ready() -> void:
 		
 		loading.texture = ani_texture
 	
-	# FIXME: Remove the subview completly instead of just hiding
-	$VBoxContainer.visible = false
-	
 	if Engine.is_editor_hint():
 		return
 	
@@ -76,8 +72,6 @@ func _setup() -> void:
 		_render = _create_render()
 		add_child(_render)
 	
-	if _render:
-		subviewport_view.texture = _render.get_texture()
 	if _scene_texture:
 		scene_texture_view.texture = _scene_texture
 	
