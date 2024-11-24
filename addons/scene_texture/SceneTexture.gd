@@ -11,15 +11,10 @@ const _SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
 #region Export Variables
-## Texture's width.
-@export var width = 64:
+## The texture's size.
+@export var size = Vector2i(64, 64):
 	set(value):
-		width = clamp(value, 1, 16384)
-		_queue_update()
-## Texture's height.
-@export var height = 64:
-	set(value):
-		height = clamp(value, 1, 16384)
+		size = value.clampi(1, 16384)
 		_queue_update()
 
 ## Scene to render.
@@ -165,18 +160,18 @@ func _init() -> void:
 
 func _get_rid() -> RID:
 	if not _texture.is_valid():
-		var image = Image.create_empty(width, height, false, Image.FORMAT_RGBA8)
+		var image = Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
 		_set_texture_image(image)
 	
 	return _texture
 
 
 func _get_width() -> int:
-	return width
+	return size.x
 
 
 func _get_height() -> int:
-	return height
+	return size.y
 
 
 func _validate_property(property: Dictionary):
@@ -279,8 +274,8 @@ func _update():
 
 
 func _set_texture_image(image:Image):
-	assert(image.get_width() == width)
-	assert(image.get_height() == height)
+	assert(image.get_width() == size.x)
+	assert(image.get_height() == size.y)
 	
 	if _texture.is_valid():
 		var new_texture = RenderingServer.texture_2d_create(image)

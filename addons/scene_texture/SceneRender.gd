@@ -60,8 +60,8 @@ var _render: Image
 ## Update render setting using the [SceneTexture] settings.
 func update_from_texture(texture:SceneTexture):
 	scene = texture.scene
-	if size != Vector2i(texture.width, texture.height):
-		size = Vector2i(texture.width, texture.height)
+	if size != texture.size:
+		size = texture.size
 		
 	camera_position = texture.camera_position
 	camera_rotation = texture.camera_rotation

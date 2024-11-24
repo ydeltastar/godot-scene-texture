@@ -9,6 +9,7 @@ resource_name = ""
 script = ExtResource("2_gbb2e")
 width = 96
 height = 96
+size = Vector2i(96, 96)
 scene = ExtResource("1_aiwoi")
 scene_position = Vector3(0, 0.055, 0)
 scene_rotation = Vector3(0, 0, 0)
