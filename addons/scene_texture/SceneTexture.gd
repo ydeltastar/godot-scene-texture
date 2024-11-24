@@ -200,12 +200,6 @@ func bake():
 	_create_render()
 	_render.render_target_update_mode = SubViewport.UPDATE_ONCE
 	
-	var root:Node = null
-	if Engine.is_editor_hint():
-		root = EditorInterface.get_base_control()
-	else:
-		root = Engine.get_main_loop().root
-	
 	var scene_tree = Engine.get_main_loop() as SceneTree
 	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
 	scene_tree.root.add_child(_render, false, Node.INTERNAL_MODE_BACK)
