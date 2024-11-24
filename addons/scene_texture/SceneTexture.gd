@@ -86,7 +86,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 
 @export_group("Render", "render_")
 ## Define custom environment settings for the internal render. The render will use the [World3D] in
-## project setting [b]scene_texture/default_world_3d[/b] if this is not provided.
+## project setting [code]scene_texture/default_world_3d[/code] if this is not provided.
 ## [br][br]
 ## [b]Note:[/b] The bake doesn't automatically updates when properties of the [Environment] or [CameraAttributes] change.
 ## You have to call [method bake] or click in the texture preview in the inspector to update.
@@ -133,7 +133,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 ## For the editor, you can click on the texture preview in the inspector to manually request a bake.
 ## [br][br]
-## [b]Note:[/b] See project setting [b]scene_texture/auto_bake_delay[/b] to configurate the bake timer.
+## [b]Note:[/b] See project setting [code]scene_texture/auto_bake_delay[/code] to configurate the bake timer.
 @export var render_auto_bake = true
 ## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
 @export var render_store_bake = false:
@@ -209,7 +209,7 @@ func bake():
 	_render.queue_free()
 
 
-## Returns [b]true[/b] if a bake is in progress.
+## Returns [code]true[/code] if a bake is in progress.
 func is_baking():
 	return _is_baking or _update_pending
 #endregion
