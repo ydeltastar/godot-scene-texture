@@ -135,6 +135,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## Automatically request bake when settings change.
 ## [br][br]
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
+## For the editor, you can click on the texture preview in the inspector to manually request a bake.
 @export var render_auto_bake = true
 ## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
 @export var render_store_bake = false:

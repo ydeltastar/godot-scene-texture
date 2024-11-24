@@ -34,9 +34,12 @@ size_flags_horizontal = 4
 size_flags_vertical = 6
 stretch_mode = 2
 
-[node name="SceneTextureView" type="Control" parent="VBoxContainer_2"]
+[node name="SceneTextureView" type="Button" parent="VBoxContainer_2"]
 z_index = 1
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+focus_mode = 0
 script = ExtResource("2_conow")
+
+[connection signal="pressed" from="VBoxContainer_2/SceneTextureView" to="." method="_on_texture_view_pressed"]

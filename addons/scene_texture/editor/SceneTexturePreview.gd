@@ -97,3 +97,7 @@ func _is_paused():
 
 func _on_changed():
 	update()
+
+
+func _on_texture_view_pressed() -> void:
+	_scene_texture.bake()
