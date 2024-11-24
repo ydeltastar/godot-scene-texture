@@ -39,6 +39,7 @@ z_index = 1
 clip_contents = true
 layout_mode = 2
 size_flags_vertical = 3
+tooltip_text = "Rebake."
 focus_mode = 0
 script = ExtResource("2_conow")
 

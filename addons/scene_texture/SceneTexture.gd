@@ -188,7 +188,6 @@ func _validate_property(property: Dictionary):
 
 
 #region Public Functions
-var _image
 ## Render scene and update the texture's image.
 func bake():
 	if not scene or _is_baking:
@@ -205,7 +204,9 @@ func bake():
 	_render.update_from_texture(self)
 
 	_render.render_finished.connect(_on_render_finished)
-	_image = await _render.render()
+	_render.render()
+	await _render.render_finished
+	_render.queue_free()
 
 
 ## Returns [b]true[/b] if a bake is in progress.
@@ -234,6 +235,7 @@ func _queue_update():
 		_data = null
 	
 	emit_changed()
+	
 	if render_auto_bake == false:
 		return
 
@@ -255,7 +257,7 @@ func _queue_update():
 			scene_tree.root.add_child(_timer)
 			_timer.start()
 		
-		if _render:
+		if is_instance_valid(_render):
 			_render.update_from_texture(self)
 	else:
 		if is_instance_valid(_timer):
