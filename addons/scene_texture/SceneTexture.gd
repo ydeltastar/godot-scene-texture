@@ -135,6 +135,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [br][br]
 ## [b]Note:[/b] See project setting [code]scene_texture/auto_bake_delay[/code] to configurate the bake timer.
 @export var render_auto_bake = true
+
 ## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
 @export var render_store_bake = false:
 	set(value):
@@ -144,6 +145,17 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 		else:
 			_data = null
 		notify_property_list_changed()
+
+## Sets the multisample anti-aliasing mode.
+@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),2× (Average),4× (Slow),8× (Slowest)") var render_msaa_3d = Viewport.MSAA_4X:
+	set(value):
+		render_msaa_3d = value
+		_queue_update()
+## Sets the screen-space antialiasing method.
+@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),FXAA (Fast)") var render_screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA:
+	set(value):
+		render_screen_space_aa = value
+		_queue_update()
 #endregion
 
 # Used to store image data when render_store_bake is true.
@@ -181,7 +193,7 @@ func _validate_property(property: Dictionary):
 	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
 		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
-	if property.name == "_data":
+	elif property.name == "_data":
 		if not render_store_bake:
 			property.usage = PROPERTY_USAGE_NONE
 #endregion

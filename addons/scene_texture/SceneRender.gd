@@ -1,6 +1,6 @@
 @tool
 extends SubViewport
-## Renders a scene.
+## Renders a scene to an [Image].
 ## Should be an oneshot object which is freed after rendering is finished.
 
 signal render_finished
@@ -76,6 +76,9 @@ func update_from_texture(texture:SceneTexture):
 	main_light.light_angular_distance = texture.light_angular_distance
 	main_light.shadow_enabled = texture.light_shadow
 	main_light.global_rotation = texture.light_rotation
+	
+	screen_space_aa = texture.render_screen_space_aa
+	msaa_3d = texture.render_msaa_3d
 	
 	var world: World3D = texture.render_world_3d
 	if not is_instance_valid(world):

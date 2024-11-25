@@ -33,6 +33,8 @@ render_world_3d = ExtResource("6_avdnd")
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
 
 [sub_resource type="Texture2D" id="Texture2D_0431j"]
 resource_local_to_scene = false
@@ -54,6 +56,8 @@ light_rotation = Vector3(-1.0472, 1.0472, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
 
 [sub_resource type="Texture2D" id="Texture2D_2ecfp"]
 resource_local_to_scene = false
@@ -75,6 +79,8 @@ light_rotation = Vector3(-1.0472, 1.0472, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
 
 [sub_resource type="Texture2D" id="Texture2D_fqi1k"]
 resource_local_to_scene = false
@@ -96,6 +102,8 @@ light_rotation = Vector3(-1.0472, 0.476475, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
 
 [sub_resource type="Texture2D" id="Texture2D_2tgy0"]
 resource_local_to_scene = false
@@ -117,6 +125,8 @@ light_rotation = Vector3(0.143117, 2.22529, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_abv04"]
 albedo_color = Color(0.66612, 0.717192, 0.708549, 1)

@@ -7,8 +7,6 @@
 resource_local_to_scene = false
 resource_name = ""
 script = ExtResource("2_gbb2e")
-width = 96
-height = 96
 size = Vector2i(96, 96)
 scene = ExtResource("1_aiwoi")
 scene_position = Vector3(0, 0.055, 0)
@@ -25,3 +23,5 @@ light_rotation = Vector3(-1.0472, 1.0472, 0)
 render_transparent_bg = true
 render_auto_bake = true
 render_store_bake = false
+render_msaa_3d = 2
+render_screen_space_aa = 1
