@@ -140,6 +140,16 @@ func _create_scene():
 		for child in _get_all_children(node):
 			child.set_script(null)
 			child.process_mode = scene_process_mode
+			
+			if child is not VisualInstance3D:
+				for sub in child.get_children():
+					sub.owner = null
+					sub.reparent(child.get_parent(), false)
+					
+					if sub is Node3D and child is Node3D:
+						sub.transform = child.transform * sub.transform
+				
+				child.free()
 	
 		node.process_mode = scene_process_mode
 		scene_parent.add_child(node)
