@@ -1,0 +1,54 @@
+name: Bug report
+description: Create a bug report to help us improve
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        - Write a descriptive title above.
+        - Open one issue for one bug. If you notice several bugs and want to report them, make sure to create one new issue for each of them.
+        - Search open and closed issues to ensure it has not already been reported.
+
+  - type: input
+    attributes:
+      label: Godot version
+      description: |
+        - Specify the Godot version and hardware information if relevant.
+        - You can copy the version info by clicking on it in the Godot status bar.
+        - Alternatively, you can copy the version and hardware info in Godot using the main menu command "Help -> Copy System Info".
+      placeholder: v4.3.stable.official [77dcf97d8]
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Plugin version
+      description: |
+        - Specify the plugin version.
+        - You can find the version in Project > Project Settings > Plugins.
+      placeholder: v0.3
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Describe the issue
+      description: |
+        - Describe your issue in detail. What doesn't work and how do you expect it to work instead?
+        - Provide screenshots and/or a console output if it helps to convey the problem.
+        - Use code blocks tags with <code>```gdscript<code> to add GDScript syntax highlighting.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: How to reproduce
+      description: |
+        - Provide a list of steps or sample code that reproduces the issue.
+        - You can provide a minimal Godot project which reproduces the issue, with no unnecessary files included.
+          - Be sure to not include the .godot folder in the archive (but keep project.godot).
+          - Drag and drop a ZIP archive to upload it (10Mb limit).
+          - Having an MRP is very important for contributors to be able to reproduce the bug in the same way that you are experiencing it.
+    validations:
+      required: true
