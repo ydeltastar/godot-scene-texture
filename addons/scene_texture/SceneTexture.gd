@@ -3,6 +3,9 @@ class_name SceneTexture extends Texture2D
 ## A texture that renders and bakes a view of a 3D [PackedScene]. It can be used to generate icons and
 ## thumbnails directly from a scene and use it anywhere that accepts a [Texture2D].
 
+# TODO: Use RenderingDevice.texture_get_data_async() to get the subviewport in 4.4
+# https://github.com/godotengine/godot/pull/100110
+
 ## Emitted when the texture's bake process finished.
 signal bake_finished
 
@@ -281,6 +284,9 @@ func _queue_update():
 
 
 func _update_now():
+	if is_instance_valid(_timer):
+		_timer.queue_free()
+	
 	if _update_pending:
 		_update()
 
