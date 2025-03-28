@@ -229,6 +229,10 @@ func bake():
 ## Returns [code]true[/code] if a bake is in progress.
 func is_baking():
 	return _is_baking or _update_pending
+
+
+func get_image() -> Image:
+	return RenderingServer.texture_2d_get(_get_rid())
 #endregion
 
 
