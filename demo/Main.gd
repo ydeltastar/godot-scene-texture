@@ -23,12 +23,12 @@ func _process(delta: float) -> void:
 
 
 func _on_button_pressed(button:Button):
-	var texture = button.icon as SceneTexture
+	var texture = button.icon
 	
 	var material = board.mesh.material as StandardMaterial3D
 	material.albedo_texture = texture
 	
-	if _current_scene == texture.scene:
+	if texture is not SceneTexture or _current_scene == texture.scene:
 		return
 	
 	if is_instance_valid(_instance):
@@ -42,7 +42,10 @@ func _on_button_pressed(button:Button):
 
 func _on_rebake_pressed() -> void:
 	for button:Button in button_grid.get_children():
-		var texture = button.icon as SceneTexture
+		var texture = button.icon
+		if texture is not SceneTexture:
+			continue
+		
 		var rot = texture.scene_rotation
 		texture.scene_rotation = Vector3(rot.x, randf_range(0, TAU), rot.z)
 		texture.light_energy = randf_range(0.5, 3.0)
