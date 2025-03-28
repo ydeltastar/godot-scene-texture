@@ -149,7 +149,7 @@ func _create_scene():
 					if sub is Node3D and child is Node3D:
 						sub.transform = child.transform * sub.transform
 				
-				child.free()
+				child.queue_free()
 	
 		node.process_mode = scene_process_mode
 		scene_parent.add_child(node)
