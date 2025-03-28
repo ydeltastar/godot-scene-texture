@@ -222,6 +222,8 @@ func bake():
 	_render.render()
 	await _render.render_finished
 	_render.queue_free()
+	
+	bake_finished.emit()
 
 
 ## Returns [code]true[/code] if a bake is in progress.
