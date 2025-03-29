@@ -8,14 +8,14 @@ var _current_scene:PackedScene
 
 @onready var _instance:Node3D = $ScenePivot/tree_blocks2
 @onready var button_grid: GridContainer = $CenterContainer/VBoxContainer/GridContainer
-@onready var board: MeshInstance3D = $Node3D/CSGBox3D/MeshInstance3D
+@onready var board: MeshInstance3D = $Node3D/Sign/CSGBox3D/MeshInstance3D
 
 
 func _ready() -> void:
 	for button:Button in button_grid.get_children():
 		button.pressed.connect(_on_button_pressed.bind(button))
 	
-	_on_button_pressed($CenterContainer/VBoxContainer/GridContainer/Button)
+	_on_button_pressed($CenterContainer/VBoxContainer/GridContainer.get_child(0))
 
 
 func _process(delta: float) -> void:
