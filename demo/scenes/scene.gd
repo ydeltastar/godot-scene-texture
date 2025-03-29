@@ -6,8 +6,8 @@ extends Node3D
 @onready var tree_blocks_2: Node3D = $tree_blocks2
 
 
-func _init() -> void:
-	print("Should not print _init")
+func _enter_tree() -> void:
+	print("Should not print _enter_tree")
 
 
 func _ready() -> void:

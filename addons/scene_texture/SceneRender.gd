@@ -115,6 +115,7 @@ func get_render() -> Image:
 	return _render
 
 
+# --- Private Functions --- #
 func _update():
 	if not is_node_ready():
 		await ready
@@ -137,27 +138,39 @@ func _create_scene():
 	
 	if scene:
 		var node = scene.instantiate()
-		node.set_script(null)
-		
-		for child in _get_all_children(node):
-			child.set_script(null)
-			child.process_mode = scene_process_mode
-			
-			if child is not VisualInstance3D:
-				for sub in child.get_children():
-					sub.owner = null
-					sub.reparent(child.get_parent(), false)
-					
-					if sub is Node3D and child is Node3D:
-						sub.transform = child.transform * sub.transform
-				
-				child.queue_free()
-	
-		node.process_mode = scene_process_mode
+		node = _cleanup_node(node)
 		scene_parent.add_child(node)
 
 
-# --- Private Functions --- #
+func _cleanup_node(node:Node):
+	node.set_script(null)
+	node.process_mode = scene_process_mode
+	
+	if node is not Node3D:
+		var replacement = Node3D.new()
+		replacement.name = node.name
+		node.replace_by(replacement)
+		node.free()
+		node = replacement
+		
+	elif node is not VisualInstance3D:
+		var replacement = Node3D.new()
+		replacement.name = node.name
+		replacement.visible = node.visible
+		replacement.transform = node.transform
+		replacement.rotation_edit_mode = node.rotation_edit_mode
+		replacement.rotation_order = node.rotation_order
+		replacement.top_level = node.top_level
+		node.replace_by(replacement)
+		node.free()
+		node = replacement
+	
+	for child in node.get_children():
+		_cleanup_node(child)
+	
+	return node
+
+
 static var _main_viewport_active = true
 func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
 	# Disable main viewport so it doesn't redrawn
