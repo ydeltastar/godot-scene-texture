@@ -137,6 +137,8 @@ func _create_scene():
 	
 	if scene:
 		var node = scene.instantiate()
+		node.set_script(null)
+		
 		for child in _get_all_children(node):
 			child.set_script(null)
 			child.process_mode = scene_process_mode
