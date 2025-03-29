@@ -179,7 +179,7 @@ func _init() -> void:
 func _get_rid() -> RID:
 	if not _texture.is_valid():
 		var image = Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
-		_set_texture_image(image)
+		_set_image(image)
 	
 	return _texture
 
@@ -203,14 +203,16 @@ func _validate_property(property: Dictionary):
 
 
 #region Public Functions
-## Render scene and update the texture's image.
+## Render the scene and update the texture's image. Rendering and texture fetching can happen in
+## another thread so this function returns before it finishes. Emits [signal bake_finished] when
+## finished.
 func bake():
 	if not scene or _is_baking:
 		return
 	
 	_is_baking = true
 	
-	_create_render()
+	_render = _SCENE_RENDER.instantiate()
 	_render.render_target_update_mode = SubViewport.UPDATE_ONCE
 	
 	var scene_tree = Engine.get_main_loop() as SceneTree
@@ -218,9 +220,10 @@ func bake():
 	scene_tree.root.add_child(_render, false, Node.INTERNAL_MODE_BACK)
 	_render.update_from_texture(self)
 
-	_render.render_finished.connect(_on_render_finished)
 	_render.render()
 	await _render.render_finished
+	_set_image(_render.get_render())
+	_is_baking = false
 	_render.queue_free()
 	
 	bake_finished.emit()
@@ -240,7 +243,7 @@ func get_image() -> Image:
 var _initialized = false
 func _initialize():
 	if _data:
-		_set_texture_image(_data)
+		_set_image(_data)
 	
 	_initialized = true
 	
@@ -302,7 +305,7 @@ func _update():
 	bake()
 
 
-func _set_texture_image(image:Image):
+func _set_image(image:Image):
 	assert(image.get_width() == size.x)
 	assert(image.get_height() == size.y)
 	
@@ -324,13 +327,4 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if _texture.is_valid():
 			RenderingServer.free_rid(_texture)
-
-
-func _create_render():
-	_render = _SCENE_RENDER.instantiate()
-
-
-func _on_render_finished():
-	_set_texture_image(_render.get_render())
-	_is_baking = false
 #endregion
