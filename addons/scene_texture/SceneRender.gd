@@ -13,37 +13,6 @@ signal render_finished
 
 		scene = value
 		_create_scene.call_deferred()
-		_update()
-## Process mode of the scene.
-@export var scene_process_mode: ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
-
-@export_group("Scene Transform", "scene_")
-@export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position: Vector3:
-	set(value):
-		scene_position = value
-		_update()
-@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation: Vector3:
-	set(value):
-		scene_rotation = value
-		_update()
-@export_custom(PROPERTY_HINT_LINK, "") var scene_scale = Vector3.ONE:
-	set(value):
-		scene_scale = value
-		_update()
-
-@export_group("Camera", "camera_")
-@export var camera_distance: float = 3.0:
-	set(value):
-		camera_distance = value
-		_update()
-@export var camera_position = Vector3(0, 0.175, 0):
-	set(value):
-		camera_position = value
-		_update()
-@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var camera_rotation = Vector3(deg_to_rad(-30), deg_to_rad(-25), 0):
-	set(value):
-		camera_rotation = value
-		_update()
 
 @onready var scene_parent: Node3D = $Node3D/Scene
 @onready var camera_pivot: Node3D = $Node3D/CameraPivot
@@ -53,6 +22,7 @@ signal render_finished
 var light_color: Color
 var light_energy: float
 var light_angular_distance: float
+var scene_process_mode: ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
 
 var _render: Image
 
@@ -63,10 +33,10 @@ func update_from_texture(texture:SceneTexture):
 	if size != texture.size:
 		size = texture.size
 		
-	camera_position = texture.camera_position
-	camera_rotation = texture.camera_rotation
-	camera_distance = texture.camera_distance
-	
+	camera_pivot.position = texture.camera_position
+	camera_pivot.global_rotation = texture.camera_rotation
+	camera.position.z = texture.camera_distance
+
 	camera.projection = texture.camera_projection
 	camera.fov = texture.camera_fov
 	camera.size = texture.camera_size
@@ -74,9 +44,9 @@ func update_from_texture(texture:SceneTexture):
 	camera.near = texture.camera_near
 	camera.far = texture.camera_far
 	
-	scene_position = texture.scene_position
-	scene_rotation = texture.scene_rotation
-	scene_scale = texture.scene_scale
+	scene_parent.position = texture.scene_position
+	scene_parent.rotation = texture.scene_rotation
+	scene_parent.scale = texture.scene_scale
 	transparent_bg = texture.render_transparent_bg
 	
 	main_light.light_color = texture.light_color
@@ -101,7 +71,7 @@ func update_from_texture(texture:SceneTexture):
 	world_3d = world
 	own_world_3d = true
 	
-	_update()
+	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
 
 
 func render():
@@ -124,20 +94,6 @@ func get_render() -> Image:
 
 
 # --- Private Functions --- #
-func _update():
-	if not is_node_ready():
-		await ready
-	
-	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
-	
-	camera_pivot.position = camera_position
-	camera_pivot.global_rotation = camera_rotation
-	camera.position.z = camera_distance
-	scene_parent.position = scene_position
-	scene_parent.rotation = scene_rotation
-	scene_parent.scale = scene_scale
-
-
 func _create_scene():
 	var scene_node = _get_scene_node()
 	if scene_node:
