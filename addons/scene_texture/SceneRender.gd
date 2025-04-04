@@ -66,6 +66,14 @@ func update_from_texture(texture:SceneTexture):
 	camera_position = texture.camera_position
 	camera_rotation = texture.camera_rotation
 	camera_distance = texture.camera_distance
+	
+	camera.projection = texture.camera_projection
+	camera.fov = texture.camera_fov
+	camera.size = texture.camera_size
+	camera.frustum_offset = texture.camera_frustum_offset
+	camera.near = texture.camera_near
+	camera.far = texture.camera_far
+	
 	scene_position = texture.scene_position
 	scene_rotation = texture.scene_rotation
 	scene_scale = texture.scene_scale

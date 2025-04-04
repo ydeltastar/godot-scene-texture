@@ -9,7 +9,7 @@ class_name SceneTexture extends Texture2D
 ## Emitted when the texture's bake process finished.
 signal bake_finished
 
-const _SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
+const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
@@ -45,6 +45,35 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		_queue_update()
 
 @export_group("Camera", "camera_")
+@export_custom(PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum")
+var camera_projection:Camera3D.ProjectionType:
+	set(value):
+		camera_projection = value
+		notify_property_list_changed()
+		_queue_update()
+@export_custom(PROPERTY_HINT_RANGE, "1,179,0.1,degrees")
+var camera_fov:float = 30:
+	set(value):
+		camera_fov = value
+		_queue_update()
+@export var camera_size:float = 1:
+	set(value):
+		camera_size = value
+		_queue_update()
+@export var camera_frustum_offset:Vector2:
+	set(value):
+		camera_frustum_offset = value
+		_queue_update()
+@export_custom(PROPERTY_HINT_RANGE, "0.001,10,0.001,or_greater,exp,suffix:m")
+var camera_near:float = 0.05:
+	set(value):
+		camera_near = value
+		_queue_update()
+@export_custom(PROPERTY_HINT_RANGE, "0.01,4000,0.01,or_greater,exp,suffix:m")
+var camera_far:float = 500.0:
+	set(value):
+		camera_far = value
+		_queue_update()
 @export var camera_distance:float = 3.0:
 	set(value):
 		camera_distance = value
@@ -168,7 +197,7 @@ var _texture:RID
 var _update_pending = false
 var _is_baking = false
 var _timer:Timer
-var _render:_SceneRender
+var _render:SceneRender
 
 
 #region Engine Callbacks
@@ -193,12 +222,25 @@ func _get_height() -> int:
 
 
 func _validate_property(property: Dictionary):
+	if property.name == "_data":
+		if not render_store_bake:
+			property.usage = PROPERTY_USAGE_NONE
+	elif property.name == "camera_distance":
+		if camera_projection != Camera3D.ProjectionType.PROJECTION_PERSPECTIVE:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
+	elif property.name == "camera_fov":
+		if camera_projection != Camera3D.ProjectionType.PROJECTION_PERSPECTIVE:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
+	elif property.name == "camera_size":
+		if camera_projection != Camera3D.ProjectionType.PROJECTION_ORTHOGONAL and camera_projection != Camera3D.ProjectionType.PROJECTION_FRUSTUM:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
+	elif property.name == "camera_frustum_offset":
+		if camera_projection != Camera3D.ProjectionType.PROJECTION_FRUSTUM:
+			property.usage = PROPERTY_USAGE_NO_EDITOR
+	
 	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
 		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
-	elif property.name == "_data":
-		if not render_store_bake:
-			property.usage = PROPERTY_USAGE_NONE
 #endregion
 
 
@@ -212,7 +254,7 @@ func bake():
 	
 	_is_baking = true
 	
-	_render = _SCENE_RENDER.instantiate()
+	_render = _SCENE_RENDER.instantiate() as SubViewport
 	_render.render_target_update_mode = SubViewport.UPDATE_ONCE
 	
 	var scene_tree = Engine.get_main_loop() as SceneTree
