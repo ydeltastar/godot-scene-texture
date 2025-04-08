@@ -109,6 +109,7 @@ func _create_scene():
 func _cleanup_node(node:Node):
 	node.set_script(null)
 	node.process_mode = scene_process_mode
+	node.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 	
 	if node is not Node3D:
 		var replacement = Node3D.new()

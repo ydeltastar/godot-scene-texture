@@ -12,6 +12,7 @@ size = Vector2i(64, 64)
 script = ExtResource("1_i535u")
 
 [node name="Node3D" type="Node3D" parent="."]
+physics_interpolation_mode = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Node3D"]
 transform = Transform3D(0.500003, -0.749999, 0.43301, -1.49013e-08, 0.499998, 0.866026, -0.866024, -0.433016, 0.250001, 0, 0, 0)

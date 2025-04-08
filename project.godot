@@ -19,6 +19,10 @@ config/icon="res://icon.png"
 
 enabled=PackedStringArray("res://addons/scene_texture/plugin.cfg")
 
+[physics]
+
+common/physics_interpolation=true
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
