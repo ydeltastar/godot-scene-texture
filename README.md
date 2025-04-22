@@ -1,6 +1,6 @@
 # SceneTexture - Icon/Thumbnail Generation
 
-A texture that uses a 3D scene to draw itself. Generate icons and thumbnails directly from a scene and use them anywhere that accepts a regular texture resource.
+A texture that uses a 3D scene to render itself. Generate icons and thumbnails directly from a scene and use them anywhere that accepts a regular texture resource.
 
 ![Use](docs/scene_texture_use.gif)
 
