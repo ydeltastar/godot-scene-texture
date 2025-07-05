@@ -9,18 +9,18 @@ class_name SceneTexture extends Texture2D
 ## Emitted when the texture's bake process finished.
 signal bake_finished
 
-const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
+const _SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
 #region Export Variables
 ## The texture's size.
-@export var size = Vector2i(64, 64):
+@export var size := Vector2i(64, 64):
 	set(value):
 		size = value.clampi(1, 16384)
 		_queue_update()
 
-## Scene to render.
+## The scene to render.
 @export var scene:PackedScene:
 	set(value):
 		if scene == value:
@@ -35,10 +35,12 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 	set(value):
 		scene_position = value
 		_queue_update()
+		
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation:Vector3:
 	set(value):
 		scene_rotation = value
 		_queue_update()
+		
 @export_custom(PROPERTY_HINT_LINK, "") var scene_scale:Vector3 = Vector3.ONE:
 	set(value):
 		scene_scale = value
@@ -51,6 +53,7 @@ var camera_projection:Camera3D.ProjectionType:
 		camera_projection = value
 		notify_property_list_changed()
 		_queue_update()
+
 @export_custom(PROPERTY_HINT_RANGE, "1,179,0.1,degrees")
 var camera_fov:float = 30:
 	set(value):
@@ -78,18 +81,18 @@ var camera_far:float = 500.0:
 	set(value):
 		camera_distance = value
 		_queue_update()
-@export var camera_position:Vector3 = Vector3(0, 0.175, 0):
+@export var camera_position := Vector3(0, 0.175, 0):
 	set(value):
 		camera_position = value
 		_queue_update()
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
-var camera_rotation = Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
+var camera_rotation := Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 	set(value):
 		camera_rotation = value
 		_queue_update()
 
 @export_group("Light", "light_")
-@export var light_color = Color.WHITE:
+@export var light_color := Color.WHITE:
 	set(value):
 		light_color = value
 		_queue_update()
@@ -105,13 +108,13 @@ var light_angular_distance: float = 0:
 		light_angular_distance = value
 		_queue_update()
 
-@export var light_shadow = false:
+@export var light_shadow: bool = false:
 	set(value):
 		light_shadow = value
 		_queue_update()
 
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
-var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
+var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 	set(value):
 		light_rotation = value
 		_queue_update()
@@ -122,7 +125,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [br][br]
 ## [b]Note:[/b] The bake doesn't automatically updates when properties of the [Environment] or [CameraAttributes] change.
 ## You have to call [method bake] or click in the texture preview in the inspector to update.
-@export var render_world_3d:World3D:
+@export var render_world_3d: World3D:
 	set(value):
 		if render_world_3d == value:
 			return
@@ -148,7 +151,7 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 		_queue_update()
 
 ## Render with transparent background.
-@export var render_transparent_bg = true:
+@export var render_transparent_bg: bool = true:
 	set(value):
 		if render_transparent_bg == value:
 			return
@@ -166,10 +169,10 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## For the editor, you can click on the texture preview in the inspector to manually request a bake.
 ## [br][br]
 ## [b]Note:[/b] See project setting [code]scene_texture/auto_bake_delay[/code] to configurate the bake timer.
-@export var render_auto_bake = true
+@export var render_auto_bake: bool = true
 
 ## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
-@export var render_store_bake = false:
+@export var render_store_bake: bool = false:
 	set(value):
 		render_store_bake = value
 		if render_store_bake:
@@ -179,12 +182,12 @@ var light_rotation = Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 		notify_property_list_changed()
 
 ## Sets the multisample anti-aliasing mode.
-@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),2× (Average),4× (Slow),8× (Slowest)") var render_msaa_3d = Viewport.MSAA_4X:
+@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),2× (Average),4× (Slow),8× (Slowest)") var render_msaa_3d := Viewport.MSAA_4X:
 	set(value):
 		render_msaa_3d = value
 		_queue_update()
 ## Sets the screen-space antialiasing method.
-@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),FXAA (Fast)") var render_screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA:
+@export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),FXAA (Fast)") var render_screen_space_aa := Viewport.SCREEN_SPACE_AA_FXAA:
 	set(value):
 		render_screen_space_aa = value
 		_queue_update()
@@ -197,7 +200,7 @@ var _texture:RID
 var _update_pending = false
 var _is_baking = false
 var _timer:Timer
-var _render:SceneRender
+var _render:_SceneRender
 
 
 #region Engine Callbacks
@@ -258,13 +261,16 @@ func bake():
 	_render.render_target_update_mode = SubViewport.UPDATE_ONCE
 	
 	var scene_tree = Engine.get_main_loop() as SceneTree
-	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
+	if not is_instance_valid(scene_tree):
+		push_error("Can't setup render because MainLoop is not a SceneTree.")
+		return
+	
 	scene_tree.root.add_child.call_deferred(_render, false, Node.INTERNAL_MODE_BACK)
 	await _render.ready
 		
 	_render.update_from_texture(self)
-	_render.render()
 	
+	_render.render()
 	await _render.render_finished
 	_set_image(_render.get_render())
 	_is_baking = false
@@ -273,8 +279,8 @@ func bake():
 	bake_finished.emit()
 
 
-## Returns [code]true[/code] if a bake is in progress.
-func is_baking():
+## Returns [code]true[/code] if a bake is in process.
+func is_baking() -> bool:
 	return _is_baking or _update_pending
 
 
