@@ -278,7 +278,11 @@ func is_baking():
 	return _is_baking or _update_pending
 
 
-func get_image() -> Image:
+# Can't use get_image() directly until https://github.com/godotengine/godot-proposals/issues/12097
+# is solved.
+## Use this instead of [member get_image] to get the correct image data from the
+## texture.
+func get_render_image() -> Image:
 	return RenderingServer.texture_2d_get(_get_rid())
 #endregion
 
