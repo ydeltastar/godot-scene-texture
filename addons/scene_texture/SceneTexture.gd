@@ -259,10 +259,12 @@ func bake():
 	
 	var scene_tree = Engine.get_main_loop() as SceneTree
 	assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
-	scene_tree.root.add_child(_render, false, Node.INTERNAL_MODE_BACK)
+	scene_tree.root.add_child.call_deferred(_render, false, Node.INTERNAL_MODE_BACK)
+	await _render.ready
+		
 	_render.update_from_texture(self)
-
 	_render.render()
+	
 	await _render.render_finished
 	_set_image(_render.get_render())
 	_is_baking = false
