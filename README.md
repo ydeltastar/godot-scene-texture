@@ -21,5 +21,5 @@ Create a new `SceneTexture` resource anywhere that takes a `Texture2D`, like a b
 
 ## License
 
-Create by ydeltastar - MIT License.  
+Created by ydeltastar - MIT License.  
 Assets in the demo by Kenney ([Nature Kit](https://kenney.nl/assets/nature-kit)) - Creative Commons CC0.
