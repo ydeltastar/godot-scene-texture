@@ -5,10 +5,18 @@ extends EditorPlugin
 var _scene_texture_inspector = preload("res://addons/scene_texture/editor/SceneTextureInspector.gd").new()
 
 
-func _enter_tree() -> void:
+func _enable_plugin() -> void:
 	_add_setting("scene_texture/auto_bake_delay", 0.01)
 	_add_setting("scene_texture/default_world_3d", "", TYPE_STRING, PROPERTY_HINT_FILE)
 	
+	add_autoload_singleton("SceneRenderManager", get_script().resource_path.get_base_dir() + "/../SceneRenderManager.gd")
+	
+
+func _disable_plugin() -> void:
+	remove_autoload_singleton("SceneRenderManager")
+	
+
+func _enter_tree() -> void:
 	add_inspector_plugin(_scene_texture_inspector)
 
 

@@ -15,6 +15,10 @@ run/main_scene="res://demo/main.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.png"
 
+[autoload]
+
+SceneRenderManager="*res://addons/scene_texture/editor/../SceneRenderManager.gd"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/scene_texture/plugin.cfg")

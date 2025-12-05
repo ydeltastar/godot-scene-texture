@@ -9,7 +9,7 @@ class_name SceneTexture extends Texture2D
 ## Emitted when the texture's bake process finished.
 signal bake_finished
 
-const _SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
+const _SceneRenderManager = preload("res://addons/scene_texture/SceneRenderManager.gd")
 
 const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
@@ -200,7 +200,6 @@ var _texture:RID
 var _update_pending = false
 var _is_baking = false
 var _timer:Timer
-var _render:_SceneRender
 
 
 #region Engine Callbacks
@@ -244,6 +243,10 @@ func _validate_property(property: Dictionary):
 	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
 		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
+
+
+func _get_render() -> _SceneRenderManager:
+	return Engine.get_singleton("SceneRenderManager")
 #endregion
 
 
@@ -257,26 +260,8 @@ func bake():
 	
 	_is_baking = true
 	
-	_render = _SCENE_RENDER.instantiate() as SubViewport
-	_render.render_target_update_mode = SubViewport.UPDATE_ONCE
-	
-	var scene_tree = Engine.get_main_loop() as SceneTree
-	if not is_instance_valid(scene_tree):
-		push_error("Can't setup render because MainLoop is not a SceneTree.")
-		return
-	
-	scene_tree.root.add_child.call_deferred(_render, false, Node.INTERNAL_MODE_BACK)
-	await _render.ready
-		
-	_render.update_from_texture(self)
-	
-	_render.render()
-	await _render.render_finished
-	_set_image(_render.get_render())
-	_is_baking = false
-	_render.queue_free()
-	
-	bake_finished.emit()
+	var render_manager = _get_render()
+	render_manager.render(self, _on_render_finished)
 
 
 ## Returns [code]true[/code] if a bake is in process.
@@ -335,8 +320,7 @@ func _queue_update():
 			scene_tree.root.add_child(_timer)
 			_timer.start()
 		
-		if is_instance_valid(_render):
-			_render.update_from_texture(self)
+		_get_render().render(self, _on_render_finished)
 	else:
 		if is_instance_valid(_timer):
 			_timer.stop()
@@ -381,4 +365,11 @@ func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		if _texture.is_valid():
 			RenderingServer.free_rid(_texture)
+
+
+func _on_render_finished(image: Image):
+	_set_image(image)
+	_is_baking = false
+	
+	bake_finished.emit()
 #endregion
