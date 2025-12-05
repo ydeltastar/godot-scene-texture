@@ -17,8 +17,3 @@ func _parse_begin(object: Object) -> void:
 	add_custom_control(_previewer)
 	
 	_previewer.edit(texture)
-
-
-func _on_update_pressed(texture: SceneTexture):
-	texture.bake()
-	_previewer.update()

@@ -24,10 +24,18 @@ var _scene_texture:SceneTexture:
 				remove_child(_render)
 				_render.queue_free()
 				_render = null
+				
 var _render:SceneRender
+var _timer:Timer
+var _update_pending = false
 
 
 func _ready() -> void:
+	_timer = Timer.new()
+	add_child(_timer)
+	_timer.one_shot = true
+	_timer.timeout.connect(_update_now)
+	
 	# Fetch the progress icon animation from the editor.
 	# Avoids saving the progress image data in the PackedScene.
 	var root = EditorInterface.get_edited_scene_root()
@@ -55,11 +63,6 @@ func _ready() -> void:
 # Called when the node enters the scene tree for the first time.
 func edit(texture:SceneTexture):
 	_scene_texture = texture
-
-
-func update():
-	if _render and _scene_texture:
-		_render.update_from_texture(_scene_texture)
 
 
 func _process(delta: float) -> void:
@@ -96,7 +99,27 @@ func _is_paused():
 	
 
 func _on_changed():
-	update()
+	_update_pending = true
+	
+	_timer.stop()
+	var bake_delay:float = ProjectSettings.get_setting("scene_texture/auto_bake_delay", 0.25)
+	if bake_delay > 0.0:
+		_timer.start(bake_delay)
+	else:
+		_update_now.call_deferred()
+
+
+func _update_now():
+	if is_instance_valid(_timer):
+		_timer.stop()
+	
+	if _update_pending:
+		_update()
+
+
+func _update():
+	_update_pending = false
+	_scene_texture.bake()
 
 
 func _on_texture_view_pressed() -> void:

@@ -199,7 +199,6 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 var _texture:RID
 var _update_pending = false
 var _is_baking = false
-var _timer:Timer
 
 
 #region Engine Callbacks
@@ -303,37 +302,10 @@ func _queue_update():
 		return
 
 	_update_pending = true
-	
-	var bake_delay:float = ProjectSettings.get_setting("scene_texture/auto_bake_delay", 0.25)
-	if bake_delay > 0.0:
-		if is_instance_valid(_timer):
-			_timer.wait_time = bake_delay
-			_timer.start()
-		else:
-			var scene_tree = Engine.get_main_loop() as SceneTree
-			assert(is_instance_valid(scene_tree), "MainLoop is not a SceneTree.")
-			await scene_tree.process_frame
-			_timer = Timer.new()
-			_timer.one_shot = true
-			_timer.wait_time = bake_delay
-			_timer.timeout.connect(_update_now)
-			scene_tree.root.add_child(_timer)
-			_timer.start()
-		
-		_get_render().render(self, _on_render_finished)
-	else:
-		if is_instance_valid(_timer):
-			_timer.stop()
-			_timer.queue_free()
-			_timer = null
-		
-		_update_now.call_deferred()
+	_update_now.call_deferred()
 
 
 func _update_now():
-	if is_instance_valid(_timer):
-		_timer.queue_free()
-	
 	if _update_pending:
 		_update()
 
@@ -358,7 +330,6 @@ func _set_image(image:Image):
 		_data = image
 	else:
 		_data = null
-	emit_changed()
 
 
 func _notification(what: int) -> void:
