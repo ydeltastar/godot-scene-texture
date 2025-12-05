@@ -110,17 +110,13 @@ func _on_changed():
 
 
 func _update_now():
-	if is_instance_valid(_timer):
-		_timer.stop()
-	
 	if _update_pending:
 		_update()
 
 
 func _update():
+	if not _timer.is_stopped():
+		_timer.stop()
+		
 	_update_pending = false
-	_scene_texture.bake()
-
-
-func _on_texture_view_pressed() -> void:
 	_scene_texture.bake()

@@ -43,4 +43,4 @@ tooltip_text = "Rebake."
 focus_mode = 0
 script = ExtResource("2_conow")
 
-[connection signal="pressed" from="VBoxContainer_2/SceneTextureView" to="." method="_on_texture_view_pressed"]
+[connection signal="pressed" from="VBoxContainer_2/SceneTextureView" to="." method="_update"]

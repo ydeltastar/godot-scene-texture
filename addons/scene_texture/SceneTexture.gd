@@ -19,6 +19,7 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 	set(value):
 		size = value.clampi(1, 16384)
 		_queue_update()
+		emit_changed()
 
 ## The scene to render.
 @export var scene:PackedScene:
@@ -29,22 +30,26 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		scene = value
 		notify_property_list_changed()
 		_queue_update()
+		emit_changed()
 
 @export_group("Scene", "scene_")
 @export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position:Vector3:
 	set(value):
 		scene_position = value
 		_queue_update()
+		emit_changed()
 		
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation:Vector3:
 	set(value):
 		scene_rotation = value
 		_queue_update()
+		emit_changed()
 		
 @export_custom(PROPERTY_HINT_LINK, "") var scene_scale:Vector3 = Vector3.ONE:
 	set(value):
 		scene_scale = value
 		_queue_update()
+		emit_changed()
 
 @export_group("Camera", "camera_")
 @export_custom(PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum")
@@ -53,71 +58,92 @@ var camera_projection:Camera3D.ProjectionType:
 		camera_projection = value
 		notify_property_list_changed()
 		_queue_update()
+		emit_changed()
 
 @export_custom(PROPERTY_HINT_RANGE, "1,179,0.1,degrees")
 var camera_fov:float = 30:
 	set(value):
 		camera_fov = value
 		_queue_update()
+		emit_changed()
+		
 @export var camera_size:float = 1:
 	set(value):
 		camera_size = value
 		_queue_update()
+		emit_changed()
+		
 @export var camera_frustum_offset:Vector2:
 	set(value):
 		camera_frustum_offset = value
 		_queue_update()
+		emit_changed()
+		
 @export_custom(PROPERTY_HINT_RANGE, "0.001,10,0.001,or_greater,exp,suffix:m")
 var camera_near:float = 0.05:
 	set(value):
 		camera_near = value
 		_queue_update()
+		emit_changed()
+		
 @export_custom(PROPERTY_HINT_RANGE, "0.01,4000,0.01,or_greater,exp,suffix:m")
 var camera_far:float = 500.0:
 	set(value):
 		camera_far = value
 		_queue_update()
+		emit_changed()
+		
 @export var camera_distance:float = 3.0:
 	set(value):
 		camera_distance = value
 		_queue_update()
+		emit_changed()
+		
 @export var camera_position := Vector3(0, 0.175, 0):
 	set(value):
 		camera_position = value
 		_queue_update()
+		emit_changed()
+		
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
 var camera_rotation := Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 	set(value):
 		camera_rotation = value
 		_queue_update()
+		emit_changed()
 
 @export_group("Light", "light_")
 @export var light_color := Color.WHITE:
 	set(value):
 		light_color = value
 		_queue_update()
+		emit_changed()
 
 @export var light_energy: float = 2.5:
 	set(value):
 		light_energy = value
 		_queue_update()
+		emit_changed()
 
 @export_custom(PROPERTY_HINT_RANGE, "0,90,0.1,radians_as_degrees")
 var light_angular_distance: float = 0:
 	set(value):
 		light_angular_distance = value
 		_queue_update()
+		emit_changed()
 
 @export var light_shadow: bool = false:
 	set(value):
 		light_shadow = value
 		_queue_update()
+		emit_changed()
 
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
 var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 	set(value):
 		light_rotation = value
 		_queue_update()
+		emit_changed()
 
 @export_group("Render", "render_")
 ## Define custom environment settings for the internal render. The render will use the [World3D] in
@@ -149,6 +175,7 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 				render_world_3d.camera_attributes.changed.connect(_queue_update)
 
 		_queue_update()
+		emit_changed()
 
 ## Render with transparent background.
 @export var render_transparent_bg: bool = true:
@@ -162,6 +189,7 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 		# https://github.com/godotengine/godot/issues/17574
 		render_transparent_bg = value
 		_queue_update()
+		emit_changed()
 
 ## Automatically request bake when settings change.
 ## [br][br]
@@ -186,11 +214,14 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 	set(value):
 		render_msaa_3d = value
 		_queue_update()
+		emit_changed()
+		
 ## Sets the screen-space antialiasing method.
 @export_custom(PROPERTY_HINT_ENUM, "Disabled (Fastest),FXAA (Fast)") var render_screen_space_aa := Viewport.SCREEN_SPACE_AA_FXAA:
 	set(value):
 		render_screen_space_aa = value
 		_queue_update()
+		emit_changed()
 #endregion
 
 # Used to store image data when render_store_bake is true.
@@ -290,13 +321,11 @@ func _initialize():
 
 
 func _queue_update():
-	if not _initialized:
+	if not _initialized or _update_pending:
 		return
 	
 	if not render_store_bake:
 		_data = null
-	
-	emit_changed()
 	
 	if render_auto_bake == false:
 		return
