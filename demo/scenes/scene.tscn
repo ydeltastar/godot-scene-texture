@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://72wxtio38n51"]
+[gd_scene load_steps=5 format=3 uid="uid://72wxtio38n51"]
 
-[ext_resource type="Script" path="res://demo/scenes/scene.gd" id="1_h1t6r"]
 [ext_resource type="PackedScene" uid="uid://dyva5tkj2xmm0" path="res://demo/assets/models/tree_blocks.glb" id="2_fvtia"]
 [ext_resource type="PackedScene" uid="uid://b8dhifickdrll" path="res://demo/assets/models/tree_blocks_fall.glb" id="3_4argu"]
 [ext_resource type="PackedScene" uid="uid://dm5w3m8w5j42p" path="res://demo/assets/models/tree_detailed.glb" id="4_g5qdc"]
 [ext_resource type="PackedScene" uid="uid://c8mdsyxmrlvpc" path="res://demo/assets/models/cactus_short.glb" id="5_h47n8"]
 
 [node name="TreeSet" type="Node3D"]
-script = ExtResource("1_h1t6r")
 
 [node name="tree_blocks2" parent="." instance=ExtResource("2_fvtia")]
 transform = Transform3D(0.653011, 0, -0.757348, 0, 1, 0, 0.757348, 0, 0.653011, -0.29709, 0, 0.370286)

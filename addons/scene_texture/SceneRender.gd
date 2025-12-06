@@ -73,8 +73,10 @@ func update_from_texture(texture:SceneTexture):
 	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
 
 
-func render():
+func render(scene_texture: SceneTexture):
+	scene = scene_texture.scene
 	_create_scene()
+	update_from_texture(scene_texture)
 
 	var render_frames = 1
 	var world = find_world_3d()
