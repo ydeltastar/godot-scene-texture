@@ -26,8 +26,31 @@ var scene_process_mode: ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
 var _render: Image
 
 
+func render(scene_texture: SceneTexture):
+	scene = scene_texture.scene
+	_create_scene()
+	_update_from_texture(scene_texture)
+
+	var render_frames = 1
+	var world = find_world_3d()
+
+	# Some rendering features like GI are temporal-based and might need time to settle for better visual quality.
+	# Use settings to define how many frames to iterate the render for temporal features.
+	var has_gi = world and world.environment and world.environment.sdfgi_enabled
+	if has_gi:
+		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
+		var v = [5, 10, 15, 20, 25, 30]
+		render_frames = v[converge]
+
+	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
+	
+
+func get_render() -> Image:
+	return _render
+	
+	
 ## Update render setting using the [SceneTexture] settings.
-func update_from_texture(texture:SceneTexture):
+func _update_from_texture(texture:SceneTexture):
 	scene = texture.scene
 	if size != texture.size:
 		size = texture.size
@@ -71,29 +94,6 @@ func update_from_texture(texture:SceneTexture):
 	own_world_3d = true
 
 	render_target_update_mode = UpdateMode.UPDATE_WHEN_VISIBLE
-
-
-func render(scene_texture: SceneTexture):
-	scene = scene_texture.scene
-	_create_scene()
-	update_from_texture(scene_texture)
-
-	var render_frames = 1
-	var world = find_world_3d()
-
-	# Some rendering features like GI are temporal-based and might need time to settle for better visual quality.
-	# Use settings to define how many frames to iterate the render for temporal features.
-	var has_gi = world and world.environment and world.environment.sdfgi_enabled
-	if has_gi:
-		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
-		var v = [5, 10, 15, 20, 25, 30]
-		render_frames = v[converge]
-
-	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
-
-
-func get_render() -> Image:
-	return _render
 
 
 # --- Private Functions --- #

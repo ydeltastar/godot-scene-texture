@@ -273,10 +273,6 @@ func _validate_property(property: Dictionary):
 	if property.name.begins_with("scene_") or property.name.begins_with("camera_") or property.name.begins_with("light_"):
 		if scene == null:
 			property.usage = PROPERTY_USAGE_NO_EDITOR
-
-
-func _get_render() -> _SceneRenderManager:
-	return Engine.get_singleton("SceneRenderManager")
 #endregion
 
 
@@ -367,6 +363,10 @@ func _notification(what: int) -> void:
 			RenderingServer.free_rid(_texture)
 
 
+func _get_render() -> _SceneRenderManager:
+	return Engine.get_singleton("SceneRenderManager")
+	
+	
 func _on_render_finished(image: Image):
 	_set_image(image)
 	_is_baking = false
