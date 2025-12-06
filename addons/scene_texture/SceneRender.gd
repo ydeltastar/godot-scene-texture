@@ -26,20 +26,20 @@ var scene_process_mode: ProcessMode = ProcessMode.PROCESS_MODE_DISABLED
 var _render: Image
 
 
-func render(scene_texture: SceneTexture):
+func render(scene_texture: SceneTexture) -> void:
 	scene = scene_texture.scene
 	_create_scene()
 	_update_from_texture(scene_texture)
 
-	var render_frames = 1
-	var world = find_world_3d()
+	var render_frames := 1
+	var world := find_world_3d()
 
 	# Some rendering features like GI are temporal-based and might need time to settle for better visual quality.
 	# Use settings to define how many frames to iterate the render for temporal features.
-	var has_gi = world and world.environment and world.environment.sdfgi_enabled
+	var has_gi := world and world.environment and world.environment.sdfgi_enabled
 	if has_gi:
-		var converge = ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
-		var v = [5, 10, 15, 20, 25, 30]
+		var converge := ProjectSettings.get_setting("rendering/global_illumination/sdfgi/frames_to_converge") as RenderingServer.EnvironmentSDFGIFramesToConverge
+		var v := [5, 10, 15, 20, 25, 30]
 		render_frames = v[converge]
 
 	RenderingServer.call_on_render_thread(_render_subviewport.bind(self, render_frames))
@@ -50,7 +50,7 @@ func get_render() -> Image:
 	
 	
 ## Update render setting using the [SceneTexture] settings.
-func _update_from_texture(texture:SceneTexture):
+func _update_from_texture(texture:SceneTexture) -> void:
 	scene = texture.scene
 	if size != texture.size:
 		size = texture.size
@@ -82,7 +82,7 @@ func _update_from_texture(texture:SceneTexture):
 
 	var world: World3D = texture.render_world_3d
 	if not is_instance_valid(world):
-		var default_env = ProjectSettings.get_setting("scene_texture/default_world_3d")
+		var default_env: String = ProjectSettings.get_setting("scene_texture/default_world_3d", "")
 		if default_env:
 			world = load(default_env)
 
@@ -97,32 +97,32 @@ func _update_from_texture(texture:SceneTexture):
 
 
 # --- Private Functions --- #
-func _create_scene():
-	var scene_node = _get_scene_node()
+func _create_scene() -> void:
+	var scene_node := _get_scene_node()
 	if scene_node:
 		scene_parent.remove_child(scene_node)
 		scene_node.queue_free()
 
 	if scene:
-		var node = scene.instantiate()
+		var node := scene.instantiate()
 		node = _cleanup_node(node)
 		scene_parent.add_child(node)
 
 
-func _cleanup_node(node:Node):
+func _cleanup_node(node:Node) -> Node:
 	node.set_script(null)
 	node.process_mode = scene_process_mode
 	node.physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_INHERIT
 
 	if node is not Node3D:
-		var replacement = Node3D.new()
+		var replacement := Node3D.new()
 		replacement.name = node.name
 		node.replace_by(replacement)
 		node.free()
 		node = replacement
 
 	elif node is not VisualInstance3D:
-		var replacement = Node3D.new()
+		var replacement := Node3D.new()
 		replacement.name = node.name
 		replacement.visible = node.visible
 		replacement.transform = node.transform
@@ -139,23 +139,23 @@ func _cleanup_node(node:Node):
 	return node
 
 
-static var _main_viewport_active = true
-func _render_subviewport(render: SubViewport, iterations:int = 1, disable_main = false):
+static var _main_viewport_active := true
+func _render_subviewport(subviewport_render: SubViewport, iterations:int = 1, disable_main := false) -> void:
 	# Disable main viewport so it doesn't redrawn
-	var root_viewport = get_tree().root.get_viewport().get_viewport_rid()
+	var root_viewport := get_tree().root.get_viewport().get_viewport_rid()
 	if disable_main:
 		RenderingServer.viewport_set_active(root_viewport, false)
 		_main_viewport_active = false
 
 	for i in iterations:
 		await RenderingServer.frame_pre_draw
-		RenderingServer.viewport_set_update_mode(render.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_ONCE)
+		RenderingServer.viewport_set_update_mode(subviewport_render.get_viewport_rid(), RenderingServer.VIEWPORT_UPDATE_ONCE)
 		RenderingServer.force_draw(true, 1.0 / iterations)
 		await RenderingServer.frame_post_draw
 
 	if not _main_viewport_active:
 		# Enable main viewport again
-		var v = get_tree().root.get_viewport_rid()
+		var v := get_tree().root.get_viewport_rid()
 		RenderingServer.viewport_set_active(v, true)
 		_main_viewport_active = true
 		await RenderingServer.frame_post_draw # image data doesn't updates correctly without this..

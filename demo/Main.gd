@@ -2,7 +2,7 @@ extends Node3D
 
 
 @export var scene_pivot:Node3D
-@export_range(-180, 180, 0.001, "radians_as_degrees") var rotation_speed = deg_to_rad(5.0)
+@export_range(-180, 180, 0.001, "radians_as_degrees") var rotation_speed := deg_to_rad(5.0)
 
 var _current_scene:PackedScene
 
@@ -22,10 +22,10 @@ func _process(delta: float) -> void:
 	scene_pivot.rotate_y(rotation_speed * delta)
 
 
-func _on_button_pressed(button:Button):
-	var texture = button.icon
+func _on_button_pressed(button:Button) -> void:
+	var texture := button.icon
 	
-	var material = board.mesh.material as StandardMaterial3D
+	var material := board.mesh.material as StandardMaterial3D
 	material.albedo_texture = texture
 	
 	if texture is not SceneTexture or _current_scene == texture.scene:
@@ -42,10 +42,10 @@ func _on_button_pressed(button:Button):
 
 func _on_rebake_pressed() -> void:
 	for button:Button in button_grid.get_children():
-		var texture = button.icon
+		var texture := button.icon
 		if texture is not SceneTexture:
 			continue
 		
-		var rot = texture.scene_rotation
+		var rot := texture.scene_rotation as Vector3
 		texture.scene_rotation = Vector3(rot.x, randf_range(0, TAU), rot.z)
 		texture.light_energy = randf_range(0.5, 3.0)

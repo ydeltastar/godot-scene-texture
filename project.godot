@@ -19,6 +19,11 @@ config/icon="res://icon.png"
 
 SceneRenderManager="*res://addons/scene_texture/editor/../SceneRenderManager.gd"
 
+[debug]
+
+gdscript/warnings/exclude_addons=false
+gdscript/warnings/untyped_declaration=1
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/scene_texture/plugin.cfg")

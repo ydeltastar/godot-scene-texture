@@ -228,8 +228,8 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 @export_storage var _data:Image
 
 var _texture:RID
-var _update_pending = false
-var _is_baking = false
+var _update_pending := false
+var _is_baking := false
 
 
 #region Engine Callbacks
@@ -239,7 +239,7 @@ func _init() -> void:
 
 func _get_rid() -> RID:
 	if not _texture.is_valid():
-		var image = Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
+		var image := Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
 		_set_image(image)
 	
 	return _texture
@@ -253,7 +253,7 @@ func _get_height() -> int:
 	return size.y
 
 
-func _validate_property(property: Dictionary):
+func _validate_property(property: Dictionary) -> void:
 	if property.name == "_data":
 		if not render_store_bake:
 			property.usage = PROPERTY_USAGE_NONE
@@ -280,13 +280,13 @@ func _validate_property(property: Dictionary):
 ## Render the scene and update the texture's image. Rendering and texture fetching can happen in
 ## another thread so this function returns before it finishes. Emits [signal bake_finished] when
 ## finished.
-func bake():
+func bake() -> void:
 	if not scene or _is_baking:
 		return
 	
 	_is_baking = true
 	
-	var render_manager = _get_render()
+	var render_manager := _get_render()
 	render_manager.render(self, _on_render_finished)
 
 
@@ -305,8 +305,8 @@ func get_render_image() -> Image:
 
 
 #region Private Functions
-var _initialized = false
-func _initialize():
+var _initialized := false
+func _initialize() -> void:
 	if _data:
 		_set_image(_data)
 	
@@ -316,7 +316,7 @@ func _initialize():
 		_queue_update()
 
 
-func _queue_update():
+func _queue_update() -> void:
 	if not _initialized or _update_pending:
 		return
 	
@@ -330,22 +330,22 @@ func _queue_update():
 	_update_now.call_deferred()
 
 
-func _update_now():
+func _update_now() -> void:
 	if _update_pending:
 		_update()
 
 
-func _update():
+func _update() -> void:
 	_update_pending = false
 	bake()
 
 
-func _set_image(image:Image):
+func _set_image(image:Image) -> void:
 	assert(image.get_width() == size.x)
 	assert(image.get_height() == size.y)
 	
 	if _texture.is_valid():
-		var new_texture = RenderingServer.texture_2d_create(image)
+		var new_texture := RenderingServer.texture_2d_create(image)
 		RenderingServer.texture_replace(_texture, new_texture)
 	else:
 		_texture = RenderingServer.texture_2d_create(image)
@@ -367,7 +367,7 @@ func _get_render() -> _SceneRenderManager:
 	return Engine.get_singleton("SceneRenderManager")
 	
 	
-func _on_render_finished(image: Image):
+func _on_render_finished(image: Image) -> void:
 	_set_image(image)
 	_is_baking = false
 	
