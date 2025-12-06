@@ -14,6 +14,5 @@ func _parse_begin(object: Object) -> void:
 	var texture = object as SceneTexture
 	
 	_previewer = SCENE_TEXTURE_PREVIEW.instantiate()
-	add_custom_control(_previewer)
-	
 	_previewer.edit(texture)
+	add_custom_control(_previewer)
