@@ -33,18 +33,21 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		emit_changed()
 
 @export_group("Scene", "scene_")
+## The scene's position in the render.
 @export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position:Vector3:
 	set(value):
 		scene_position = value
 		_queue_update()
 		emit_changed()
-		
+
+## The scene's rotation in the render.
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation:Vector3:
 	set(value):
 		scene_rotation = value
 		_queue_update()
 		emit_changed()
-		
+
+## The scene's scale in the render.
 @export_custom(PROPERTY_HINT_LINK, "") var scene_scale:Vector3 = Vector3.ONE:
 	set(value):
 		scene_scale = value
@@ -52,6 +55,7 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		emit_changed()
 
 @export_group("Camera", "camera_")
+## The type of camera project the render will use.
 @export_custom(PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum")
 var camera_projection:Camera3D.ProjectionType:
 	set(value):
@@ -60,51 +64,59 @@ var camera_projection:Camera3D.ProjectionType:
 		_queue_update()
 		emit_changed()
 
+## The field of view angle of render's camera in degrees.
 @export_custom(PROPERTY_HINT_RANGE, "1,179,0.1,degrees")
 var camera_fov:float = 30:
 	set(value):
 		camera_fov = value
 		_queue_update()
 		emit_changed()
-		
+
+## The size of the orthogonal camera render.
 @export var camera_size:float = 1:
 	set(value):
 		camera_size = value
 		_queue_update()
 		emit_changed()
-		
+
+## The field of view angle of render's camera.
 @export var camera_frustum_offset:Vector2:
 	set(value):
 		camera_frustum_offset = value
 		_queue_update()
 		emit_changed()
-		
+
+## The distance to the near culling boundary for the render's camera relative to its local Z axis.
 @export_custom(PROPERTY_HINT_RANGE, "0.001,10,0.001,or_greater,exp,suffix:m")
 var camera_near:float = 0.05:
 	set(value):
 		camera_near = value
 		_queue_update()
 		emit_changed()
-		
+
+## The distance to the far culling boundary for the render's camera relative to its local Z axis.
 @export_custom(PROPERTY_HINT_RANGE, "0.01,4000,0.01,or_greater,exp,suffix:m")
 var camera_far:float = 500.0:
 	set(value):
 		camera_far = value
 		_queue_update()
 		emit_changed()
-		
+
+## The distance of the render's camera from the scene.
 @export var camera_distance:float = 3.0:
 	set(value):
 		camera_distance = value
 		_queue_update()
 		emit_changed()
-		
+
+## The position of the render's camera.
 @export var camera_position := Vector3(0, 0.175, 0):
 	set(value):
 		camera_position = value
 		_queue_update()
 		emit_changed()
-		
+
+## The rotation of the render's camera.
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
 var camera_rotation := Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 	set(value):
@@ -113,18 +125,21 @@ var camera_rotation := Vector3(deg_to_rad(-40), deg_to_rad(-25), 0):
 		emit_changed()
 
 @export_group("Light", "light_")
+## The color of the render's light.
 @export var light_color := Color.WHITE:
 	set(value):
 		light_color = value
 		_queue_update()
 		emit_changed()
 
+## The energy of the render's light.
 @export var light_energy: float = 2.5:
 	set(value):
 		light_energy = value
 		_queue_update()
 		emit_changed()
 
+## The angular distance of the render's light.
 @export_custom(PROPERTY_HINT_RANGE, "0,90,0.1,radians_as_degrees")
 var light_angular_distance: float = 0:
 	set(value):
@@ -132,12 +147,14 @@ var light_angular_distance: float = 0:
 		_queue_update()
 		emit_changed()
 
+## Enable or disable the the shadow of the render's light.
 @export var light_shadow: bool = false:
 	set(value):
 		light_shadow = value
 		_queue_update()
 		emit_changed()
 
+## The rotation of the render's light.
 @export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees")
 var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 	set(value):
@@ -195,8 +212,6 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 ## [br][br]
 ## [b]Note:[/b] Changes to [Environment] and [CameraAttributes] can't be automatically catch so they require calling [method bake] manually.
 ## For the editor, you can click on the texture preview in the inspector to manually request a bake.
-## [br][br]
-## [b]Note:[/b] See project setting [code]scene_texture/auto_bake_delay[/code] to configurate the bake timer.
 @export var render_auto_bake: bool = true
 
 ## Stores the render in the resource file. The texture will use it instead of rendering at runtime when loaded.
