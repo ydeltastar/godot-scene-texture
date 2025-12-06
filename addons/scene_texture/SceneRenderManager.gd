@@ -27,8 +27,7 @@ func render(scene_texture: SceneTexture, callable: Callable) -> void:
 	task.callable = callable
 	
 	_render_task.append(task)
-	if not _is_rendering:
-		_render_next()
+	_render_next()
 
 
 func _render_next():
