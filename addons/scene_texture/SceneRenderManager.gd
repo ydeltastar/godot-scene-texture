@@ -22,6 +22,7 @@ func _ready() -> void:
 
 func render(scene_texture: SceneTexture, callable: Callable) -> void:
 	assert(is_instance_valid(scene_texture))
+	
 	var task := RenderTask.new()
 	task.texture = scene_texture
 	task.callable = callable

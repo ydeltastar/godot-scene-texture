@@ -22,7 +22,7 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 		emit_changed()
 
 ## The scene to render.
-@export var scene:PackedScene:
+@export var scene: PackedScene:
 	set(value):
 		if scene == value:
 			return
@@ -34,21 +34,21 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
 @export_group("Scene", "scene_")
 ## The scene's position in the render.
-@export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position:Vector3:
+@export_custom(PROPERTY_HINT_NONE, "suffix:m") var scene_position: Vector3:
 	set(value):
 		scene_position = value
 		_queue_update()
 		emit_changed()
 
 ## The scene's rotation in the render.
-@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation:Vector3:
+@export_custom(PROPERTY_HINT_RANGE, "-360,360,0.1,radians_as_degrees") var scene_rotation: Vector3:
 	set(value):
 		scene_rotation = value
 		_queue_update()
 		emit_changed()
 
 ## The scene's scale in the render.
-@export_custom(PROPERTY_HINT_LINK, "") var scene_scale:Vector3 = Vector3.ONE:
+@export_custom(PROPERTY_HINT_LINK, "") var scene_scale: Vector3 = Vector3.ONE:
 	set(value):
 		scene_scale = value
 		_queue_update()
@@ -57,7 +57,7 @@ const _SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 @export_group("Camera", "camera_")
 ## The type of camera project the render will use.
 @export_custom(PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum")
-var camera_projection:Camera3D.ProjectionType:
+var camera_projection: Camera3D.ProjectionType:
 	set(value):
 		camera_projection = value
 		notify_property_list_changed()
@@ -66,21 +66,21 @@ var camera_projection:Camera3D.ProjectionType:
 
 ## The field of view angle of render's camera in degrees.
 @export_custom(PROPERTY_HINT_RANGE, "1,179,0.1,degrees")
-var camera_fov:float = 30:
+var camera_fov: float = 30:
 	set(value):
 		camera_fov = value
 		_queue_update()
 		emit_changed()
 
 ## The size of the orthogonal camera render.
-@export var camera_size:float = 1:
+@export var camera_size: float = 1:
 	set(value):
 		camera_size = value
 		_queue_update()
 		emit_changed()
 
 ## The field of view angle of render's camera.
-@export var camera_frustum_offset:Vector2:
+@export var camera_frustum_offset: Vector2:
 	set(value):
 		camera_frustum_offset = value
 		_queue_update()
@@ -88,7 +88,7 @@ var camera_fov:float = 30:
 
 ## The distance to the near culling boundary for the render's camera relative to its local Z axis.
 @export_custom(PROPERTY_HINT_RANGE, "0.001,10,0.001,or_greater,exp,suffix:m")
-var camera_near:float = 0.05:
+var camera_near: float = 0.05:
 	set(value):
 		camera_near = value
 		_queue_update()
@@ -96,14 +96,14 @@ var camera_near:float = 0.05:
 
 ## The distance to the far culling boundary for the render's camera relative to its local Z axis.
 @export_custom(PROPERTY_HINT_RANGE, "0.01,4000,0.01,or_greater,exp,suffix:m")
-var camera_far:float = 500.0:
+var camera_far: float = 500.0:
 	set(value):
 		camera_far = value
 		_queue_update()
 		emit_changed()
 
 ## The distance of the render's camera from the scene.
-@export var camera_distance:float = 3.0:
+@export var camera_distance: float = 3.0:
 	set(value):
 		camera_distance = value
 		_queue_update()
@@ -240,9 +240,9 @@ var light_rotation := Vector3(deg_to_rad(-60), deg_to_rad(60), 0):
 #endregion
 
 # Used to store image data when render_store_bake is true.
-@export_storage var _data:Image
+@export_storage var _data: Image
 
-var _texture:RID
+var _texture: RID
 var _update_pending := false
 var _is_baking := false
 
@@ -355,7 +355,7 @@ func _update() -> void:
 	bake()
 
 
-func _set_image(image:Image) -> void:
+func _set_image(image: Image) -> void:
 	assert(image.get_width() == size.x)
 	assert(image.get_height() == size.y)
 	

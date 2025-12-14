@@ -6,10 +6,10 @@ const SceneRender = preload("res://addons/scene_texture/SceneRender.gd")
 
 const SCENE_RENDER = preload("res://addons/scene_texture/scene_render.tscn")
 
-@onready var scene_texture_view = $VBoxContainer_2/SceneTextureView
-@onready var loading: TextureRect = $VBoxContainer_2/HBoxContainer/Loading
+@onready var scene_texture_view = $VBoxContainer/SceneTextureView
+@onready var loading: TextureRect = $VBoxContainer/HBoxContainer/Loading
 
-var _scene_texture:SceneTexture
+var _scene_texture: SceneTexture
 var _update_pending = false
 
 
