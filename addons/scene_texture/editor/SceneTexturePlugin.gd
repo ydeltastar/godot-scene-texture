@@ -10,7 +10,7 @@ func _enter_tree() -> void:
 	_add_setting("scene_texture/default_world_3d", "", TYPE_STRING, PROPERTY_HINT_FILE)
 
 	if not Engine.has_singleton("SceneRenderManager"):
-		add_autoload_singleton("SceneRenderManager", get_script().resource_path.get_base_dir() + "/../SceneRenderManager.gd")
+		add_autoload_singleton("SceneRenderManager", "res://addons/scene_texture/SceneRenderManager.gd")
 	add_inspector_plugin(_scene_texture_inspector)
 
 
